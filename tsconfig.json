@@ -30,6 +30,6 @@
     ".next/types/**/*.ts",
     "app/lib/placeholder-data.ts",
     "scripts/seed.js"
-, "app/lib/definitions.ts", "prisma/seed.js", "app/ui/dashboard/map.js", "app/lib/maps.scraper.js"  ],
+  ],
   "exclude": ["node_modules"]
 }
