@@ -1,10 +1,10 @@
-import CardWrapper from '@/app/ui/dashboard/cards';
-import { lusitana } from '@/app/ui/fonts';
-import LatestReviews from '@/app/ui/dashboard/latest-reviews';
-import PodioRanking from '@/app//ui/dashboard/ranking';
-// import Map from '@/app//ui/dashboard/map';
-import Calendar from '@/app//ui/dashboard/calendar';
-import Suggestions from '@/app//ui/dashboard/suggestions';
+// import CardWrapper from '@/app/ui/dashboard/cards';
+// import { lusitana } from '@/app/ui/fonts';
+// // import LatestReviews from '@/app/ui/dashboard/latest-reviews';
+// import PodioRanking from '@/app//ui/dashboard/ranking';
+// // import Map from '@/app//ui/dashboard/map';
+// import Calendar from '@/app//ui/dashboard/calendar';
+// import Suggestions from '@/app//ui/dashboard/suggestions';
 // import { Suspense } from 'react';
 // import { LatestInvoicesSkeleton } from '@/app/ui/skeletons';
  
