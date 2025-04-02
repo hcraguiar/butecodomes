@@ -1,6 +1,4 @@
-import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
+import { prisma } from "@/prisma/prisma";
 
 async function listUsers() {
   return prisma.user.findMany();
@@ -13,3 +11,4 @@ export async function GET() {
   	return Response.json({ error }, { status: 500 });
   }
 }
+

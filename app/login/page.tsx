@@ -1,7 +1,7 @@
 import HomeLogo from "@/app/ui/home-logo";
 import LoginForm from "@/app/ui/login-form";
 import { Suspense } from "react";
-import GoogleSignInButton from "@/app/ui/sign-in";
+// import GoogleSignInButton from "@/app/ui/sign-in";
 
 export default async function LoginPage() {
   return (
@@ -15,9 +15,9 @@ export default async function LoginPage() {
         <Suspense>
           <LoginForm />  
         </Suspense>
-        <Suspense>
+        {/* <Suspense>
           <GoogleSignInButton />
-        </Suspense>
+        </Suspense> */}
       </div>
     </main>
   )
