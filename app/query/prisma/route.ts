@@ -1,6 +1,10 @@
+<<<<<<< HEAD:app/query/prisma/route.ts
+import { prisma } from "@/prisma/prisma";
+=======
 // import postgres from 'postgres';
 
 // const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require' });
+>>>>>>> main:app/query/route.ts
 
 // async function listInvoices() {
 // 	const data = await sql`
@@ -24,3 +28,4 @@ export async function GET() {
   // 	return Response.json({ error }, { status: 500 });
   // }
 }
+
