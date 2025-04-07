@@ -2,14 +2,11 @@ import NextAuth from "next-auth";
 import { authConfig } from "@/auth.config";
 import Credentials from "next-auth/providers/credentials";
 import Google from "next-auth/providers/google";
-import { Client, Pool } from "@neondatabase/serverless";
+import { Pool } from "@neondatabase/serverless";
 import { compare } from "bcryptjs";
 import { z } from "zod";
-import { User } from "@prisma/client";
-import { userAgent } from "next/server";
 
-export const runtime = "edge"; //Autenticação rodando em Edge
-
+export const runtime = "edge";
 const neon = new Pool({ connectionString: process.env.DATABASE_URL });
 
 
@@ -19,7 +16,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     Credentials({
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
-          throw new Error("E-mail e senha são obigatórios");
+          throw new Error("Preencha todos os campos");
         }
         const parsedCredentials = z
           .object({ email: z.string().email(), password: z.string().min(6) })
@@ -31,7 +28,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           try {
             const result = await client.query(`SELECT * FROM users WHERE email=$1`, [email]);
             const user = result.rows[0];
-            console.log("passei aqui", user)
             if (!user || !user.password) {
               throw new Error("Usuário não encontrado");
             }
@@ -52,4 +48,44 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       clientSecret: process.env.AUTH_GOOGLE_SECRET!
     })
   ],
+  callbacks: {
+    // authorized({ auth, request: { nextUrl } }) {
+    //   const isLoggedIn = !!auth?.user;
+    //   const isOnDashboard = nextUrl.pathname.startsWith('/dashboard');
+    //   if (isOnDashboard) {
+    //     if (isLoggedIn) return true;
+    //     return !!auth;
+    //   } else if (isLoggedIn) {
+    //     return Response.redirect(new URL('/dashboard', nextUrl));
+    //   }
+    //   return true;
+    // },
+    async signIn({ user, account }) {
+      if (account?.provider === 'google' && user?.email) {
+        const client = await neon.connect();
+        try {
+          const result = await client.query(`SELECT * FROM users WHERE email=$1`, [user.email]);
+          if (result.rows.length === 0) {
+            await client.query(
+              `INSERT INTO users (email, name, image)
+              VALUES ($1, $2, $3)`,
+              [user.email, user.name ?? '', user.image ?? '']
+            );
+          }
+          
+          return true;
+        } finally {
+          client.release();
+        }
+      }
+      return true;
+    },
+    async session({ session, token }) {
+      if (token.sub) session.user.id = token.sub;
+      return session;
+    },
+    async redirect({ url, baseUrl }) {
+      return url.startsWith(baseUrl) ? url : `${baseUrl}/dashboard`;
+    }
+  },
 })

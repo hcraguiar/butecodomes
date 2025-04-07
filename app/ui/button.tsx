@@ -1,17 +1,22 @@
-import clsx from 'clsx';
+"use client";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
+  variant?: 'primary' | 'toggle';
 }
 
-export function Button({ children, className, ...rest }: ButtonProps) {
+export default function Button({ children, className, variant = 'primary', ...rest }: ButtonProps) {
+  const baseStyles = "px-6 py-3 text-lg font-semibold rounded-lg shadow-md transition font-secondary";
+
+  const variants: Record<string, string> = {
+    primary: 'bg-gold dark:bg-darkGold text-white hover:bg-darkGold dark:hover:bg-gold',
+    toggle: 'p-2 bg-gold dark:bg-darkGold text-white rounded-lg hover:bg-darkGold dark:hover:bg-gold',
+  }
+
   return (
     <button
       {...rest}
-      className={clsx(
-        'flex h-10 items-center rounded-lg bg-blue-500 px-4 text-sm font-medium text-white transition-colors hover:bg-blue-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 active:bg-blue-600 aria-disabled:cursor-not-allowed aria-disabled:opacity-50',
-        className,
-      )}
+      className={`${baseStyles} ${variants[variant]} ${className}`}    
     >
       {children}
     </button>

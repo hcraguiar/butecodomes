@@ -1,40 +1,42 @@
-import HomeLogo from './ui/home-logo';
-import { ArrowRightIcon } from '@heroicons/react/24/outline';
-import Link from 'next/link';
-import { lusitana } from '@/app/ui/fonts';
-import Image from 'next/image';
+'use client';
 
-export default function Page() {
+import Link from 'next/link';
+import Image from 'next/image';
+import Button from '@/app/ui/button';
+import Logo from '@/app/ui/logo';
+
+
+export default function WelcomePage() {
   return (
-    <main className="flex min-h-screen flex-col p-6">
-      <div className="flex h-20 shrink-0 items-end rounded-lg bg-neutral-300 p-4 md:h-32">
-        <HomeLogo />
+    <div className="flex flex-col items-center justify-center min-h-screen px-4 text-center transition-all relative">
+      {/* Logo com alternância de tema */}
+      <Logo />
+      
+      {/* Mensagem de Boas-Vindas */}
+      <h1 className="text-4xl font-bold text-brown dark:text-gold md:text-5xl font-primary">Bem-vindo ao Buteco do Mês!</h1>
+      <p className="mt-4 text-lg text-darkBrown dark:text-beige max-w-xl font-secondary">
+        Obrigado por fazer parte da nossa comunidade. Vamos brindar a novas descobertas! 🍻
+      </p>
+
+      {/* Botão de Entrar */}
+      <Link href="/login" className='mt-6'>
+        <Button
+          variant="primary"
+        >
+          Entrar
+        </Button>
+      </Link>
+      
+      {/* Imagem de Destaque */}
+      <div className="relative w-full max-w-md mt-6">
+        <Image 
+          src="/bar-image.png" 
+          alt="Imagem de um bar aconchegante"
+          width={600} 
+          height={400} 
+          className="rounded-2xl shadow-lg"
+        />
       </div>
-      <div className="mt-4 flex grow flex-col gap-4 md:flex-row">
-        <div className="flex flex-col justify-center gap-6 rounded-lg bg-gray-50 px-6 py-10 md:w-2/5 md:px-20">
-          <p className={`${lusitana.className} text-xl text-gray-800 md:text-3xl md:leading-normal`}>
-            <strong>Bem-vindo ao Buteco do Mês.</strong><br />
-            Obrigado por fazer parte da nossa comunidade. Vamos brindar a novas descobertas! 🍻
-          </p>
-        
-          <Link
-            href="/login"
-            className="flex items-center gap-5 self-start rounded-lg bg-amber-400 px-6 py-3 text-sm font-medium transition-colors hover:bg-amber-300 md:text-base"
-          >
-            <span>Entrar</span> <ArrowRightIcon className="w-5 md:w-6" />
-          </Link>
-        </div>
-        <div className="flex items-center justify-center p-6 md:w-3/5 md:px-28 md:py-12">
-          {/* Add Hero Images Here */}
-          <Image
-            src="/hero-desktop.png"
-            width={1000}
-            height={760}
-            className="hidden md:block"
-            alt="Screenshots of dashboard project showing desktop version"  
-          />
-        </div>
-      </div>
-    </main>
+    </div>
   );
 }

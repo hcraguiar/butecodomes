@@ -16,7 +16,10 @@ importers:
         version: 1.0.0
       '@next-auth/prisma-adapter':
         specifier: ^1.0.7
-        version: 1.0.7(@prisma/client@6.4.1(typescript@5.7.3))(next-auth@5.0.0-beta.25(next@15.2.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react@19.0.0))
+        version: 1.0.7(@prisma/client@6.5.0(typescript@5.7.3))(next-auth@5.0.0-beta.25(next@15.2.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react@19.0.0))
+      '@next/font':
+        specifier: ^14.2.15
+        version: 14.2.15(next@15.2.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0))
       '@prisma/adapter-neon':
         specifier: ^6.5.0
         version: 6.5.0(@neondatabase/serverless@1.0.0)
@@ -67,8 +70,8 @@ importers:
         version: 3.24.2
     devDependencies:
       '@prisma/client':
-        specifier: ^6.4.1
-        version: 6.4.1(typescript@5.7.3)
+        specifier: ^6.5.0
+        version: 6.5.0(typescript@5.7.3)
       '@types/leaflet':
         specifier: ^1.9.16
         version: 1.9.17
@@ -250,6 +253,11 @@ packages:
   '@next/env@15.2.1':
     resolution: {integrity: sha512-JmY0qvnPuS2NCWOz2bbby3Pe0VzdAQ7XpEB6uLIHmtXNfAsAO0KLQLkuAoc42Bxbo3/jMC3dcn9cdf+piCcG2Q==}
 
+  '@next/font@14.2.15':
+    resolution: {integrity: sha512-QopYhBmCDDrNDynbi+ZD1hDZXmQXVFo7TmAFp4DQgO/kogz1OLbQ92hPigJbj572eZ3GaaVxNIyYVn3/eAsehg==}
+    peerDependencies:
+      next: '*'
+
   '@next/swc-darwin-arm64@15.2.1':
     resolution: {integrity: sha512-aWXT+5KEREoy3K5AKtiKwioeblmOvFFjd+F3dVleLvvLiQ/mD//jOOuUcx5hzcO9ISSw4lrqtUPntTpK32uXXQ==}
     engines: {node: '>= 10'}
@@ -322,8 +330,8 @@ packages:
     peerDependencies:
       '@neondatabase/serverless': '>0.6.0 <2'
 
-  '@prisma/client@6.4.1':
-    resolution: {integrity: sha512-A7Mwx44+GVZVexT5e2GF/WcKkEkNNKbgr059xpr5mn+oUm2ZW1svhe+0TRNBwCdzhfIZ+q23jEgsNPvKD9u+6g==}
+  '@prisma/client@6.5.0':
+    resolution: {integrity: sha512-M6w1Ql/BeiGoZmhMdAZUXHu5sz5HubyVcKukbLs3l0ELcQb8hTUJxtGEChhv4SVJ0QJlwtLnwOLgIRQhpsm9dw==}
     engines: {node: '>=18.18'}
     peerDependencies:
       prisma: '*'
@@ -1191,12 +1199,16 @@ snapshots:
       '@types/node': 22.10.7
       '@types/pg': 8.11.11
 
-  '@next-auth/prisma-adapter@1.0.7(@prisma/client@6.4.1(typescript@5.7.3))(next-auth@5.0.0-beta.25(next@15.2.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react@19.0.0))':
+  '@next-auth/prisma-adapter@1.0.7(@prisma/client@6.5.0(typescript@5.7.3))(next-auth@5.0.0-beta.25(next@15.2.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react@19.0.0))':
     dependencies:
-      '@prisma/client': 6.4.1(typescript@5.7.3)
+      '@prisma/client': 6.5.0(typescript@5.7.3)
       next-auth: 5.0.0-beta.25(next@15.2.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react@19.0.0)
 
   '@next/env@15.2.1': {}
+
+  '@next/font@14.2.15(next@15.2.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0))':
+    dependencies:
+      next: 15.2.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
 
   '@next/swc-darwin-arm64@15.2.1':
     optional: true
@@ -1245,7 +1257,7 @@ snapshots:
       '@prisma/driver-adapter-utils': 6.5.0
       postgres-array: 3.0.3
 
-  '@prisma/client@6.4.1(typescript@5.7.3)':
+  '@prisma/client@6.5.0(typescript@5.7.3)':
     optionalDependencies:
       typescript: 5.7.3
 

@@ -1,24 +1,31 @@
-import HomeLogo from "@/app/ui/home-logo";
-import LoginForm from "@/app/ui/login-form";
-import { Suspense } from "react";
-// import GoogleSignInButton from "@/app/ui/sign-in";
+'use client';
 
-export default async function LoginPage() {
+import Logo from '@/app/ui/logo';
+import LoginForm from '@/app/ui/login/login-form';
+import GoogleSignInButton from '@/app/ui/login/google';
+import Link from 'next/link';
+
+export default function LoginPage() {
   return (
-    <main className="flex items-center justify-center md:h-screen">
-      <div className="relative mx-auto flex w-full max-w-[400px] flex-col space-y-2.5 p-4 md:-mt-32">
-        <div className="flex h-20 w-full items-end rounded-lg bg-neutral-300 p-3 md:h-36">
-          <div className="w-32 md:w-36">
-            <HomeLogo />
-          </div>
-        </div>
-        <Suspense>
-          <LoginForm />  
-        </Suspense>
-        {/* <Suspense>
-          <GoogleSignInButton />
-        </Suspense> */}
-      </div>
-    </main>
-  )
+    <div className="flex flex-col items-center justify-center min-h-screen px-4 text-center transition-all relative">
+      {/* Logo */}
+      <Logo />
+      
+      <h1 className="text-3xl md:text-4xl font-bold mt-6">Faça Login</h1>
+      <p className="mt-2 text-base md:text-lg max-w-xl font-secondary">
+        Entre com suas credenciais ou use o Google.
+      </p>
+      
+      {/* Formulário de Login */}
+      <LoginForm />
+      
+      {/* Login com Google */}
+      <GoogleSignInButton />
+      
+      <p className="mt-4 text-sm">
+        Ainda não tem uma conta? <Link href="/register" className="text-blue-500">Cadastre-se</Link>
+      </p>
+    </div>
+  );
 }
+

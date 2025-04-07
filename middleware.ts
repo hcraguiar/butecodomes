@@ -1,10 +1,30 @@
-// import NextAuth from "next-auth";
-// import { authConfig } from "@/auth.config";
+import { auth } from '@/auth';
+import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
 
-// export default NextAuth(authConfig).auth;
+export async function middleware(request: NextRequest) {
+  const session = await auth();
+  const { pathname } = request.nextUrl;
+  const isAuth = !!session;
 
-export { auth as middleware} from "@/auth";
+  const publicPages = ['/', '/login'];
+
+  if (isAuth && publicPages.includes(pathname)) {
+    return NextResponse.redirect(new URL('/dashboard', request.url));
+  }
+
+  if (!isAuth && pathname.startsWith('/dashboard')) {
+    return NextResponse.redirect(new URL('/login', request.url));
+  }
+
+  return NextResponse.next();
+}
 
 export const config = {
-  matcher: ['/((?!api|_next/static|_next/image|.*\\.png$).*)'],
+  matcher: [
+    '/',
+    '/login',
+    '/dashboard/:path*',
+    '/((?!api|_next/static|_next/image|.*\\.png$).*)'
+  ],
 };

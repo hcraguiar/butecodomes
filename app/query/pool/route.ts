@@ -3,12 +3,13 @@ import { Pool } from "@neondatabase/serverless";
 const neon = new Pool({ connectionString: process.env.DATABASE_URL });
 
 async function getUsers() {
-  const email = "user@test.com";
-  const query = `SELECT * FROM users WHERE email=$1`;
+  const email = "fake@test.com";
+  const name = "User Test";
+  const query = `SELECT * FROM users WHERE email=$1 OR name=$2`;
 
   const client = await neon.connect();
   try {
-    const result = await client.query(query, [email]);
+    const result = await client.query(query, [email, name]);
     return result.rows;
   } finally {
     client.release();
