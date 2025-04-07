@@ -5,7 +5,6 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import { signIn } from 'next-auth/react';
 import Button from '@/app/ui/button';
 import { AtSymbolIcon, KeyIcon, ExclamationCircleIcon } from '@heroicons/react/24/outline';
-import { Router } from 'next/router';
 
 export default function LoginForm() {
 

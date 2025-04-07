@@ -3,6 +3,7 @@
 import Logo from '@/app/ui/logo';
 import LoginForm from '@/app/ui/login/login-form';
 import GoogleSignInButton from '@/app/ui/login/google';
+import { Suspense } from 'react';
 import Link from 'next/link';
 
 export default function LoginPage() {
@@ -17,14 +18,16 @@ export default function LoginPage() {
       </p>
       
       {/* Formulário de Login */}
-      <LoginForm />
+      <Suspense>
+        <LoginForm />
+      </Suspense>
       
       {/* Login com Google */}
       <GoogleSignInButton />
       
-      <p className="mt-4 text-sm">
+      {/* <p className="mt-4 text-sm">
         Ainda não tem uma conta? <Link href="/register" className="text-blue-500">Cadastre-se</Link>
-      </p>
+      </p> */}
     </div>
   );
 }
