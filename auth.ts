@@ -5,6 +5,7 @@ import Google from "next-auth/providers/google";
 import { Pool } from "@neondatabase/serverless";
 import { compare } from "bcryptjs";
 import { z } from "zod";
+import cuid from "cuid";
 
 export const runtime = "edge";
 const neon = new Pool({ connectionString: process.env.DATABASE_URL });
@@ -55,10 +56,11 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         try {
           const result = await client.query(`SELECT * FROM users WHERE email=$1`, [user.email]);
           if (result.rows.length === 0) {
+            const id = cuid();
             await client.query(
-              `INSERT INTO users (email, name, image)
-              VALUES ($1, $2, $3)`,
-              [user.email, user.name ?? '', user.image ?? '']
+              `INSERT INTO users (id, email, name, image)
+              VALUES ($1, $2, $3, $4)`,
+              [id, user.email, user.name ?? '', user.image ?? '']
             );
           }
           
