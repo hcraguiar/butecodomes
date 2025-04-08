@@ -15,9 +15,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   providers: [
     Credentials({
       async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) {
-          throw new Error("Preencha todos os campos");
-        }
+        if (!credentials?.email || !credentials?.password) return null;
         const parsedCredentials = z
           .object({ email: z.string().email(), password: z.string().min(6) })
           .safeParse(credentials);
@@ -28,19 +26,16 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           try {
             const result = await client.query(`SELECT * FROM users WHERE email=$1`, [email]);
             const user = result.rows[0];
-            if (!user || !user.password) {
-              throw new Error("Usuário não encontrado");
-            }
+            if (!user || !user.password) return null;
             const pwdMatch = await compare(password, user.password);
-            if (!pwdMatch) {
-              throw new Error("Senha incorreta");
-            }
+            if (!pwdMatch) return null;
             
             return { id: user.id, email: user.email } as any;
           } finally {
             client.release();
           }
         }
+        return null;
       }
     }),
     Google({
