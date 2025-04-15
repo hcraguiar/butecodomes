@@ -6,9 +6,12 @@ import Button from '@/app/ui/button';
 export default function GoogleSignInButton() {
   return (
     <Button 
-      variant="primary" 
+      variant="outline" 
       className="mt-3"
-      onClick={() => signIn('google', { callbackUrl: '/dashboard' })}
+      onClick={() => signIn('google', { 
+        callbackUrl: '/dashboard',
+        redirect: false, 
+      })}
     >
       <div className='flex items-center'>
         <div className='pr-4'>
@@ -20,7 +23,7 @@ export default function GoogleSignInButton() {
           </svg>
         </div>
         <div>
-          Fazer login com o Google
+          Fazer login com Google
         </div>
       </div>
     </Button>

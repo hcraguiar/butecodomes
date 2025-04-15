@@ -14,8 +14,20 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Invite {
+  id String @id @default(uuid())
+  token String @unique
+  expiresAt DateTime
+  invitedBy User @relation("CreatedInvites", fields: [invitedById], references: [id])
+  invitedById String
+  acceptedBy User? @relation("AcceptedInvites", fields: [acceptedById], references: [id])
+  acceptedById String?
+
+  createdAt DateTime @default(now())
+}
+
 model User {
-  id  String  @id @default(cuid())
+  id  String  @id @default(uuid())
   name String?
   email String @unique
   emailVerified DateTime?
@@ -72,20 +84,8 @@ model VerificationToken {
   @@id([identifier, token])
 }
 
-model Invite {
-  id String @id @default(cuid())
-  token String @unique
-  expiresAt DateTime
-  invitedBy User @relation("CreatedInvites", fields: [invitedById], references: [id])
-  invitedById String
-  acceptedBy User? @relation("AcceptedInvites", fields: [acceptedById], references: [id])
-  acceptedById String?
-
-  createdAt DateTime @default(now())
-}
-
 model Buteco {
-  id  String  @id @default(cuid())
+  id  String  @id @default(uuid())
   name String
   address String
   latitude Float
@@ -101,7 +101,7 @@ model Buteco {
 }
 
 model Review {
-  id  String  @id @default(cuid())
+  id  String  @id @default(uuid())
   user_id String
   buteco_id String
   food Int
@@ -118,7 +118,7 @@ model Review {
 }
 
 model Calendar {
-  id String @id @default(cuid())
+  id String @id @default(uuid())
   date DateTime
   buteco Buteco @relation(fields: [buteco_id], references: [id])
   buteco_id String

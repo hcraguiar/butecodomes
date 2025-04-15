@@ -5,7 +5,6 @@ import Google from "next-auth/providers/google";
 import { Pool } from "@neondatabase/serverless";
 import { compare } from "bcryptjs";
 import { z } from "zod";
-import cuid from "cuid";
 
 export const runtime = "edge";
 const neon = new Pool({ connectionString: process.env.DATABASE_URL });
@@ -16,7 +15,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   providers: [
     Credentials({
       async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) return null;
+        if (!credentials?.email || !credentials?.password) throw new Error("MissingFields");;
         const parsedCredentials = z
           .object({ email: z.string().email(), password: z.string().min(6) })
           .safeParse(credentials);
@@ -27,16 +26,16 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           try {
             const result = await client.query(`SELECT * FROM users WHERE email=$1`, [email]);
             const user = result.rows[0];
-            if (!user || !user.password) return null;
+            if (!user || !user.password) throw new Error("AccessDenied");
             const pwdMatch = await compare(password, user.password);
-            if (!pwdMatch) return null;
+            if (!pwdMatch) throw new Error("InvalidCredentials");
             
             return { id: user.id, email: user.email } as any;
           } finally {
             client.release();
           }
         }
-        return null;
+        throw new Error("InvalidCredentials");
       }
     }),
     Google({
@@ -56,14 +55,11 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         try {
           const result = await client.query(`SELECT * FROM users WHERE email=$1`, [user.email]);
           if (result.rows.length === 0) {
-            const id = cuid();
-            await client.query(
-              `INSERT INTO users (id, email, name, image)
-              VALUES ($1, $2, $3, $4)`,
-              [id, user.email, user.name ?? '', user.image ?? '']
-            );
+            return '/login?error=AccessDenied';
+          } else {
+            if (!result.rows[0].password)
+            return `/register/password?Email=${user.email}`
           }
-          
           return true;
         } finally {
           client.release();
@@ -71,8 +67,16 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       }
       return true;
     },
+    async jwt({ token, account, user }) {
+      if (account && user) {
+        token.id = user?.id;
+        token.exp = Math.floor(Date.now() / 1000) + 60 * 60; // expira em 1 hora
+      }
+
+      return token;
+    },
     async session({ session, token }) {
-      if (token.sub) session.user.id = token.sub;
+      if (token?.id) session.user.id = String(token.id);
       return session;
     },
     async redirect({ url, baseUrl }) {

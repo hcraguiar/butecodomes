@@ -5,6 +5,7 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import { signIn } from 'next-auth/react';
 import Button from '@/app/ui/button';
 import { AtSymbolIcon, KeyIcon, ExclamationCircleIcon } from '@heroicons/react/24/outline';
+import Input from '@/app/ui/input';
 
 export default function LoginForm() {
 
@@ -39,31 +40,6 @@ export default function LoginForm() {
 
   return (
     <form className="mt-6 w-full max-w-sm" onSubmit={handleSubmit}>
-      <div className="relative">
-        <input
-          type="email"
-          placeholder="E-mail"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="w-full p-3 rounded-lg border border-gray-300 dark:border-gray-600 mb-3 pl-10 text-black"
-          required
-        />
-        <AtSymbolIcon className='pointer-events-none absolute left-3 top-[16px] h-[18px] w-[18px] text-gray-500 peer-focus:text-gray-500' />
-      </div>
-      <div className="relative">
-        <input
-          type="password"
-          placeholder="Senha"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="w-full p-3 rounded-lg border border-gray-300 dark:border-gray-600 mb-3 pl-10 text-black"
-          required
-        />
-        <KeyIcon className='pointer-events-none absolute top-[16px] left-3 h-[18px] w-[18px] text-gray-500 peer-focus:text-gray-500' />
-      </div>
-      <Button type="submit" variant="primary" aria-disabled={loading}>
-        {loading ? 'Entrando...' : 'Entrar'}
-      </Button>
       <div className="flex items-end space-x-1" aria-live="polite" aria-atomic="true">
         {error && (
             <>
@@ -71,7 +47,26 @@ export default function LoginForm() {
               <p className="text-sm mt-3 text-red-500">{error}</p>
             </>
           )}
-        </div>
+      </div>
+        <Input
+          type="email"
+          placeholder="E-mail"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          icon={<AtSymbolIcon />}
+          required
+        />
+        <Input
+          type="password"
+          placeholder="Senha"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          icon={<KeyIcon />}
+          required
+        />
+      <Button type="submit" variant="primary" aria-disabled={loading}>
+        {loading ? 'Entrando...' : 'Entrar'}
+      </Button>
     </form>
   );
 }

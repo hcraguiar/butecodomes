@@ -1,10 +1,10 @@
 import { Suspense } from "react";
-import LoginPage from "@/app/ui/login/client-page";
+import RegisterPage from "@/app/ui/register/client-page";
 
 export default function Page() {
   return (
     <Suspense>
-      <LoginPage />
+      <RegisterPage />
     </Suspense>
-  )
+  );
 }

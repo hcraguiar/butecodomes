@@ -20,8 +20,8 @@ export const authConfig = {
   },
   session: {
     strategy: "jwt",
-    // maxAge: 30 * 24 * 60 * 60, // 30 days
-    // updateAge: 24 * 60 * 60, // 24 hours
+    maxAge: 60 * 60, // 1h
+    updateAge: 30 * 60 // 30'
   },
   providers: [],
 } satisfies NextAuthConfig;
