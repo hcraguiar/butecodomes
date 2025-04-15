@@ -55,10 +55,10 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         try {
           const result = await client.query(`SELECT * FROM users WHERE email=$1`, [user.email]);
           if (result.rows.length === 0) {
-            throw new Error('REDIRECT:/login?error=AccessDenied');
+            return '/login?error=AccessDenied';
           } else {
             if (!result.rows[0].password)
-              throw new Error(`REDIRECT:/register/password?email=${encodeURIComponent(user.email)}`);
+              return `/register/password?email=${user.email}`;
           }
           return true;
         } finally {
