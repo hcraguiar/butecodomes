@@ -15,7 +15,6 @@ export const authConfig = {
   // },
   pages: {
     signIn: '/login',
-    error: '/login?error=true',
     signOut: '/',
   },
   session: {
