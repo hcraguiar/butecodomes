@@ -2,12 +2,11 @@
 'use client';
 
 import { useEffect } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { getSession } from 'next-auth/react';
 
 export default function CheckPasswordPage() {
   const router = useRouter();
-  const searchParams = useSearchParams();
 
   useEffect(() => {
     const checkPassword = async () => {
@@ -29,12 +28,13 @@ export default function CheckPasswordPage() {
           router.push(`/register/password?Email=${email}`);
         }
       } catch (e) {
+        console.error("Erro ao checar senha:", (e as Error).message);
         router.push('/login?error=PasswordCheckFailed');
       }
     };
 
     checkPassword();
-  }, [router, searchParams]);
+  }, [router]);
 
   return (
     <div className="min-h-screen flex items-center justify-center">

@@ -95,8 +95,17 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     },
 
     async jwt({ token, account, user }) {
-      if (account && user) {
-        token.id = user.id;
+      if (account && user && user?.email) {
+        const client = await neon.connect();
+        try {
+          const result = await client.query(`SELECT id FROM users WHERE email=$1`, [user.email]);
+
+          if (result.rows.length > 0) {
+            token.id = result.rows[0].id;
+          }
+        } finally {
+          client.release();
+        }
         token.email = user.email;
         token.exp = Math.floor(Date.now() / 1000) + 60 * 60; // expira em 1 hora
       }
