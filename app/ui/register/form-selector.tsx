@@ -43,7 +43,7 @@ export default function FormSelector() {
 
   const handleGoogleRegister = async () => {
     await signIn("google", {
-      callbackUrl: `/register/password?token=${token}`,
+      callbackUrl: `/auth/check-password`,
     });
   };
 

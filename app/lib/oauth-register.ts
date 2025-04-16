@@ -1,5 +1,4 @@
 import { Pool } from "@neondatabase/serverless";
-import { randomUUID } from 'crypto';
 
 const neon = new Pool({ connectionString: process.env.DATABASE_URL });
 
@@ -21,7 +20,7 @@ export async function registerUserFromOAuth(email: string, name: string | null, 
     }
 
     // Cria o usuário manualmente
-    const id = randomUUID();
+    const id = crypto.randomUUID();
     await client.query(
       `INSERT INTO users (id, email, name, image, created_at) VALUES ($1, $2, $3, $4, NOW())`,
       [id, email, name, image]

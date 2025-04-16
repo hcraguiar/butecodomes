@@ -16,7 +16,7 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL('/dashboard', request.url));
   }
   
-  if (!isAuth && pathname.startsWith('/dashboard') ) {
+  if (!isAuth && pathname.startsWith('/dashboard') || pathname.startsWith('/auth') ) {
     return NextResponse.redirect(new URL('/login', request.url));
   }
 
@@ -35,7 +35,7 @@ export const config = {
     '/',
     '/login',
     '/dashboard/:path*',
-    '/invite',
+    '/auth/:path*',
     '/api/invite/:path*',
     '/api/register/:path*',
     '/((?!api|_next/static|_next/image|.*\\.png$).*)'

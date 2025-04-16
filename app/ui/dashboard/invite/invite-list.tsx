@@ -1,15 +1,13 @@
 "use client";
 
 import { InviteWithUser } from "@/app/lib/types";
-import { redirect, useRouter } from "next/navigation";
 import Button from "@/app/ui/button";
 import { useEffect, useState } from "react";
-import { InviteCard, SimpleInviteCard } from "./invite-card";
+import { InviteCard } from "./invite-card";
 import { Modal } from "@/app/ui/modal";
 import { InviteListSkeleton } from "./invite-skeleton";
 import { formatDateToLocal } from "@/app/lib/utils";
 import { EyeIcon, TrashIcon } from "@heroicons/react/24/outline";
-import { create } from "domain";
 
 type ApiResponse = InviteWithUser[];
 

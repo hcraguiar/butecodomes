@@ -24,7 +24,7 @@ export function InviteCard({ invite }: Props) {
   return (
     <div className="relative">
       <div className="p-4 space-y-2">
-        <QRCode value={url} size={128} viewBox={'0 0 128 128'} className="mx-auto mb-10" />
+        <QRCode value={url} size={128} viewBox={'0 0 128 128'} level="H" className="mx-auto mb-10" />
         <p className="text-sm font-medium break-words">
           Token: <span className="text-blue-600">{invite.token}</span>
         </p>
@@ -44,47 +44,6 @@ export function InviteCard({ invite }: Props) {
             <Square2StackIcon className="w-4 h-4" />
           </Button>
         </div>
-      </div>
-    </div>
-  );
-}
-
-export function SimpleInviteCard({ invite }: Props) {
-  return (
-    <div className="border rounded-xl p-4 shadow-sm">
-      <p className="text-sm font-medium">
-        Token: <span className="font-medium">{invite.token.slice(0, 8)}...</span>
-      </p>
-      <div>
-        <span className="font-medium">Status:</span>{" "}
-        {invite.acceptedBy ? (
-          <>
-            Aceito por <strong>{invite.acceptedBy.name ?? invite.acceptedBy.email}</strong>
-          </>
-        ) : (
-          <>
-          <span className="text-yellow-600">Aguardando aceitação</span>
-          <span className="flex text-sm text-gray-500">
-            Expira em: {formatDateToLocal(invite.expiresAt.toLocaleString())}
-          </span>
-          {/* <div className="flex justify-end space-x-2">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => handleView(invite)}
-          >
-            <EyeIcon className="w-4 h-4" />
-          </Button>
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => handleCancel(invite.id)}
-          >
-            <TrashIcon className="w-4 h-4 text-red-600" />
-          </Button>
-          </div> */}
-          </>
-        )};
       </div>
     </div>
   );

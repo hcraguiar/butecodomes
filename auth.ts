@@ -74,12 +74,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
               throw new Error('InvalidInvite');
             }
            
-            return `/register/password?Email=${encodeURIComponent(user.email)}`;
+            return true;
           } 
-          if (!result.rows[0].password) {
-            return `/register/password?email=${encodeURIComponent(user.email)}`;
-          }
-
+         
           return true;
         } finally {
           client.release();
@@ -88,6 +85,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
       return true;
     },
+
     async jwt({ token, account, user }) {
       if (account && user) {
         token.id = user.id;
@@ -97,13 +95,18 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
       return token;
     },
+
     async session({ session, token }) {
       if (token?.id) session.user.id = String(token.id);
       if (token?.email) session.user.email = String(token.email);
       return session;
     },
+
     async redirect({ url, baseUrl }) {
-      return url.startsWith(baseUrl) ? url : `${baseUrl}/dashboard`;
+      if (url.startsWith('/')) return `${baseUrl}${url}`;
+      if (new URL(url).origin === baseUrl) return url;
+      return baseUrl;
     }
+    
   },
 })

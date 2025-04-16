@@ -9,7 +9,7 @@ export default function GoogleSignInButton() {
       variant="outline" 
       className="mt-3"
       onClick={() => signIn('google', { 
-        callbackUrl: '/dashboard',
+        callbackUrl: '/auth/check-password',
         redirect: false, 
       })}
     >
