@@ -6,6 +6,7 @@ import { Pool } from "@neondatabase/serverless";
 import { compare } from "bcryptjs";
 import { z } from "zod";
 import { registerUserFromOAuth } from "@/app/lib/oauth-register";
+import { cookies } from "next/headers";
 
 export const runtime = "edge";
 const neon = new Pool({ connectionString: process.env.DATABASE_URL });
@@ -52,14 +53,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   callbacks: {
     async signIn({ user, account }) {
       if (account?.provider === 'google' && user?.email) {
-        const callbackUrlRaw = account?.callbackUrl;
 
-        let inviteToken: string | null = null;
-
-        if (typeof callbackUrlRaw === 'string') {
-          const url = new URL(callbackUrlRaw);
-          inviteToken = url.searchParams.get('token');
-        }
+        const cookieStore = await cookies();
+        const inviteToken = cookieStore.get('inviteToken')?.value;
         
         const client = await neon.connect();
 
@@ -77,9 +73,10 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
            
             return true;
           } 
-         
+          
           return true;
         } finally {
+          cookieStore.delete('inviteToken');
           client.release();
         }
       }

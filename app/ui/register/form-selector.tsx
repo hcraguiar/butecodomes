@@ -42,6 +42,9 @@ export default function FormSelector() {
   };
 
   const handleGoogleRegister = async () => {
+    if (!token) return;
+    document.cookie = `inviteToken=${token}; path/; max-age=300; SameSite=Lax`;
+
     await signIn("google", {
       callbackUrl: `/auth/check-password`,
     });
