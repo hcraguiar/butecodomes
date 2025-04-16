@@ -64,10 +64,17 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
           if (result.rows.length === 0) {
             // Usuário não existe e não tem convite
-            if (!inviteToken) throw new Error("MissindInvite");
+            if (!inviteToken) throw new Error("MissingInvite");
              
-            const register = await registerUserFromOAuth(user.email, user.name ?? null, user.image ?? null, inviteToken);
+            const register = await registerUserFromOAuth(
+              user.email, 
+              user.name ?? null, 
+              user.image ?? null, 
+              inviteToken
+            );
+
             if (!register.success) {
+              console.error("Erro ao registrar usuário OAuth com convite:", register.error);
               throw new Error('InvalidInvite');
             }
            
@@ -75,6 +82,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           } 
           
           return true;
+        } catch (error) {
+          console.error("Erro no signIn OAuth", JSON.stringify(error, null, 2))
+          throw new Error('SignUpFailed');
         } finally {
           cookieStore.delete('inviteToken');
           client.release();
