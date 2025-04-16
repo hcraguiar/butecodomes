@@ -46,7 +46,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           scope: "openid email profile",
         }
       }
-    })
+    }),
+
   ],
   callbacks: {
     async signIn({ user, account }) {
@@ -66,7 +67,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           const result = await client.query(`SELECT * FROM users WHERE email=$1`, [user.email]);
 
           if (result.rows.length === 0) {
-            // Usuário não existe
+            // Usuário não existe e não tem convite
+            console.log(inviteToken);
             if (!inviteToken) throw new Error("AccessDenied");
              
             const register = await registerUserFromOAuth(user.email, user.name ?? null, user.image ?? null, inviteToken);
