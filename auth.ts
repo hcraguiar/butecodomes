@@ -68,8 +68,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
           if (result.rows.length === 0) {
             // Usuário não existe e não tem convite
-            console.log(inviteToken);
-            if (!inviteToken) throw new Error("AccessDenied");
+            if (!inviteToken) throw new Error("MissindInvite");
              
             const register = await registerUserFromOAuth(user.email, user.name ?? null, user.image ?? null, inviteToken);
             if (!register.success) {
