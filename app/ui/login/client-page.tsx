@@ -11,6 +11,7 @@ const messages: Record<string, string> = {
   AccessDenied: 'Acesso negado.',
   InvalidCredentials: 'Credenciais inválidas.',
   MissingFields: 'Preencha todos os campos.',
+  InvalidInvite: 'Convite inválido.',
   AccountCreated: 'Sua conta foi criada com sucesso',
 }
 
@@ -44,7 +45,7 @@ export default function LoginPage() {
         <div className='flex w-full self-start items-center  mt-3 rounded-md bg-red-200 h-10 p-3'>
           <div className="flex items-end space-x-1" aria-live="polite" aria-atomic="true">
             <ExclamationCircleIcon className="h-5 w-5 text-red-500" />
-            <p className="text-sm text-red-500">{messages[error as string]}</p>
+            <p className="text-sm text-red-500">{messages[error as string] ?? 'Ocorreu um erro!'}</p>
           </div>
         </div>
       )}

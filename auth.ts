@@ -5,10 +5,10 @@ import Google from "next-auth/providers/google";
 import { Pool } from "@neondatabase/serverless";
 import { compare } from "bcryptjs";
 import { z } from "zod";
+import { registerUserFromOAuth } from "@/app/lib/oauth-register";
 
 export const runtime = "edge";
 const neon = new Pool({ connectionString: process.env.DATABASE_URL });
-
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   ...authConfig,
@@ -51,25 +51,47 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   callbacks: {
     async signIn({ user, account }) {
       if (account?.provider === 'google' && user?.email) {
+        const callbackUrlRaw = account?.callbackUrl;
+
+        let inviteToken: string | null = null;
+
+        if (typeof callbackUrlRaw === 'string') {
+          const url = new URL(callbackUrlRaw);
+          inviteToken = url.searchParams.get('token');
+        }
+        
         const client = await neon.connect();
+
         try {
           const result = await client.query(`SELECT * FROM users WHERE email=$1`, [user.email]);
+
           if (result.rows.length === 0) {
-            return '/login?error=AccessDenied';
-          } else {
-            if (!result.rows[0].password)
-              return `/register/password?email=${user.email}`;
+            // Usuário não existe
+            if (!inviteToken) throw new Error("AccessDenied");
+             
+            const register = await registerUserFromOAuth(user.email, user.name ?? null, user.image ?? null, inviteToken);
+            if (!register.success) {
+              throw new Error('InvalidInvite');
+            }
+           
+            return `/register/password?Email=${encodeURIComponent(user.email)}`;
+          } 
+          if (!result.rows[0].password) {
+            return `/register/password?email=${encodeURIComponent(user.email)}`;
           }
+
           return true;
         } finally {
           client.release();
         }
       }
+
       return true;
     },
     async jwt({ token, account, user }) {
       if (account && user) {
-        token.id = user?.id;
+        token.id = user.id;
+        token.email = user.email;
         token.exp = Math.floor(Date.now() / 1000) + 60 * 60; // expira em 1 hora
       }
 
@@ -77,6 +99,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     },
     async session({ session, token }) {
       if (token?.id) session.user.id = String(token.id);
+      if (token?.email) session.user.email = String(token.email);
       return session;
     },
     async redirect({ url, baseUrl }) {

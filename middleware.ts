@@ -4,17 +4,18 @@ import { NextRequest } from 'next/server';
 
 const ALLOWED_ORIGIN = process.env.NEXT_PUBLIC_URL;
 
+
 export async function middleware(request: NextRequest) {
   const session = await auth();
   const { pathname } = request.nextUrl;
   const isAuth = !!session;
 
   const publicPages = ['/', '/login', '/register'];
-
+  
   if (isAuth && publicPages.includes(pathname)) {
     return NextResponse.redirect(new URL('/dashboard', request.url));
   }
-
+  
   if (!isAuth && pathname.startsWith('/dashboard') ) {
     return NextResponse.redirect(new URL('/login', request.url));
   }
