@@ -1,7 +1,5 @@
 // pages/api/users/has-password.ts
-import { NextApiResponse } from 'next';
 import { prisma } from '@/prisma/prisma';
-import { request } from 'http';
 import { NextResponse } from 'next/server';
 
 const ALLOWED_ORIGIN = process.env.NEXT_PUBLIC_URL;

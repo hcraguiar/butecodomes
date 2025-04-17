@@ -3,14 +3,14 @@
 
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { auth } from '@/auth';
+import { getSession } from 'next-auth/react';
 
-export default async function CheckPasswordPage() {
+export default function CheckPasswordPage() {
   const router = useRouter();
-  const session = await auth();
 
   useEffect(() => {
     const checkPassword = async () => {
+      const session = await getSession();
       const email = session?.user?.email;
 
       if (!email) {
@@ -34,7 +34,7 @@ export default async function CheckPasswordPage() {
     };
 
     checkPassword();
-  }, [session, router]);
+  }, [router]);
 
   return (
     <div className="min-h-screen flex items-center justify-center">
