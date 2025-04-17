@@ -3,14 +3,18 @@
 
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { getSession } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 
 export default function CheckPasswordPage() {
+  const {data: session, status} = useSession();
   const router = useRouter();
 
   useEffect(() => {
+    if (status === 'loading') {
+      return; // Wait for session to load
+    }
+
     const checkPassword = async () => {
-      const session = await getSession();
       const email = session?.user?.email;
 
       if (!email) {
