@@ -13,8 +13,8 @@ export default function WelcomePage() {
       <Logo />
       
       {/* Mensagem de Boas-Vindas */}
-      <h1 className="text-4xl font-bold text-brown dark:text-gold md:text-5xl font-primary">Bem-vindo ao Buteco do Mês!</h1>
-      <p className="mt-4 text-lg text-darkBrown dark:text-beige max-w-xl font-secondary">
+      <h1 className="text-4xl font-bold text-secondary dark:text-primary md:text-5xl font-primary">Bem-vindo ao Buteco do Mês!</h1>
+      <p className="mt-4 text-lg  max-w-xl">
         Obrigado por fazer parte da nossa comunidade. Vamos brindar a novas descobertas! 🍻
       </p>
 

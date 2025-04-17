@@ -24,6 +24,6 @@ export default async function Page() {
     //     <CardWrapper />
     //   </div>
     // </main>
-    <p>Dashboard</p>
+    <h1>Início</h1>
   );
 }

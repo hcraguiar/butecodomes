@@ -31,7 +31,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             const pwdMatch = await compare(password, user.password);
             if (!pwdMatch) throw new Error("InvalidCredentials");
             
-            return { id: user.id, email: user.email } as any;
+            return { id: user.id, email: user.email, name: user.name, image: user.image } as any;
           } finally {
             client.release();
           }

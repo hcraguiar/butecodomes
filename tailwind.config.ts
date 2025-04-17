@@ -13,20 +13,37 @@ const config: Config = {
         '13': 'repeat(13, minmax(0, 1fr))',
       },
       colors: {
-        beige: "#F5E1C8",
-        brown: "#4E2A1E",
-        darkBrown: "#2D1B14",
-        gold: '#D4A44A',
-        darkGold: '#B97A57',
-        blue: {
-          400: '#2589FE',
-          500: '#0070F3',
-          600: '#2F6FEB',
-        },
+        // Paleta clara (modo light)
+        primary: '#F5E1C9',
+        secondary: '#B59F84',
+        accent: '#775A38',
+        info: '#678DA0',
+        highlight: '#C9E6F5',
+        contrast: '#173A4B',
+
+        // Backgrounds e texto padrão
+        background: '#F9FAFB',
+        muted: "#F1F5F9",
+        foreground: "#111827",
+        'muted-foreground': "#6b7280",
+
+        // Dark mode (usado com classes 'dark')
+        'dark-primary': '#464039',       // versão escura do primary
+        'dark-secondary': '#786C5F',     // versão escura do secondary
+        'dark-accent': '#AB8A65',        // para botões em dark
+        'dark-info': '#627A85',
+        'dark-highlight': '384145',
+        'dark-contrast': '#E5E7EB',
+    
+        'dark-background': '#111827',
+        'dark-muted': '#1F2937',
+        'dark-foreground': '#F9FAFB',
+        'dark-muted-foreground': '#9CA3AF',
       },
       fontFamily: {
         primary: ['var(--font-pacifico)', 'cursive'],
         secondary: ['var(--font-inter)', 'sans-serif'],
+        tertiary: ['var(--font-playfair)', 'serif'],
       },
     },
     keyframes: {

@@ -6,6 +6,7 @@ import GoogleSignInButton from '@/app/ui/login/google';
 import { Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { ExclamationCircleIcon } from '@heroicons/react/24/outline';
+import toast from 'react-hot-toast';
 
 const messages: Record<string, string> = {
   AccessDenied: 'Acesso negado.',
@@ -27,27 +28,21 @@ export default function LoginPage() {
       <Logo />
 
       <h1 className="text-3xl md:text-4xl font-bold mt-6">Faça Login</h1>
-      <p className="mt-2 text-base md:text-lg max-w-xl font-secondary">
+      <p className="mt-2 text-base md:text-lg max-w-xl">
         Entre com suas credenciais ou use o Google.
       </p>
 
       {/* Alertas */}
+      
       {success && (
-        <div className='flex w-full self-start items-center  mt-3 rounded-md bg-green-200 h-10 p-3'>
-          <div className="flex items-end space-x-1" aria-live="polite" aria-atomic="true">
-            <ExclamationCircleIcon className="h-5 w-5 text-green-500" />
-            <p className="text-sm text-green-500">{messages[success as string]}</p>
-          </div>
-        </div>
+        toast.success(
+          messages[success as string] ?? 'Sucesso!'
+        )
+         
       )}
 
       {error && (
-        <div className='flex w-full self-start items-center  mt-3 rounded-md bg-red-200 h-10 p-3'>
-          <div className="flex items-end space-x-1" aria-live="polite" aria-atomic="true">
-            <ExclamationCircleIcon className="h-5 w-5 text-red-500" />
-            <p className="text-sm text-red-500">{messages[error as string] ?? 'Ocorreu um erro!'}</p>
-          </div>
-        </div>
+        toast.error(messages[error as string] ?? 'Erro desconhecido.')
       )}
       
       {/* Formulário de Login */}

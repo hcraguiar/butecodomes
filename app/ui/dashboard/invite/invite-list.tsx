@@ -8,6 +8,7 @@ import { Modal } from "@/app/ui/modal";
 import { InviteListSkeleton } from "./invite-skeleton";
 import { formatDateToLocal } from "@/app/lib/utils";
 import { EyeIcon, TrashIcon } from "@heroicons/react/24/outline";
+import toast from "react-hot-toast";
 
 type ApiResponse = InviteWithUser[];
 
@@ -18,17 +19,18 @@ export default function InviteListClient() {
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
+  const [createLoading, setCreateLoading] = useState(false);
+
+  const fetchInvites = async () => {
+    setLoading(true);
+    const res = await fetch(`/api/invite/list?page=${currentPage}`);
+    const data = await res.json();
+    setInvites(data.invites);
+    setTotalPages(data.totalPages);
+    setLoading(false);
+  };
 
   useEffect(() => {
-    const fetchInvites = async () => {
-      setLoading(true);
-      const res = await fetch(`/api/invite/list?page=${currentPage}`);
-      const data = await res.json();
-      setInvites(data.invites);
-      setTotalPages(data.totalPages);
-      setLoading(false);
-    };
-
     fetchInvites();
   }, [currentPage]);
 
@@ -44,17 +46,25 @@ export default function InviteListClient() {
       body: JSON.stringify({ id: inviteId }),
       headers: { "Content-Type": "application/json" },
     });
+    await fetchInvites();
   }
 
   const handleCreate = async () => {
-    const res = await fetch('/api/invite/create', {
-      method: 'POST',
-    });
-
-    const invite = await res.json();
-
-    setModalContent(invite);
-    setModalOpen(true);
+    setCreateLoading(true);
+    try {
+      const res = await fetch('/api/invite/create', {
+        method: 'POST',
+      });
+      const invite = await res.json();
+      setModalContent(invite);
+      setModalOpen(true);
+    } catch (error) {
+      console.error("Erro ao criar convite:", (error as Error).message);
+      toast.error("Erro ao criar convite");
+    } finally {
+      setCreateLoading(false);
+      await fetchInvites();
+    }
   }
 
   const now = new Date;
@@ -64,7 +74,9 @@ export default function InviteListClient() {
   return (
     <>
     <div className="flex justify-end my-4">
-      <Button onClick={() => handleCreate()} size="sm">Novo convite</Button>
+      <Button onClick={() => handleCreate()} size="sm" disabled={createLoading}>
+        {createLoading ? 'Aguarde' : 'Novo convite'}
+      </Button>
     </div>
     {invites.length === 0 ? (
       <p className="text-sm">Nenhum convite criado!</p>
