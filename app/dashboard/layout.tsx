@@ -30,7 +30,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         </main>
 
         {/* Mobile Navbar */}
-        <nav className="md:hidden fixed bottom-0 left-0 right-0 flex justify-around items-center py-2 border-t border-muted dark:border-dark-muted">
+        <nav className="md:hidden fixed bottom-0 left-0 right-0 flex justify-around items-center py-2 border-t border-muted dark:border-dark-muted bg-background dark:bg-dark-background">
           <NavLinks />
         </nav>
       </div>
