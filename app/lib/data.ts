@@ -1,4 +1,5 @@
 import { prisma } from "@/prisma/prisma";
+import { ButecoListType } from "./types";
 
 export async function createInvite(id: string) {
   const token = crypto.randomUUID();
@@ -68,3 +69,5 @@ export async function getInvitesByUser(userId: string, page = 1, perPage = 5) {
 
   return { invites, total };
 }
+
+

@@ -2,19 +2,20 @@
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
-  variant?: 'primary' | 'toggle' | 'outline' | 'ghost' | 'topbar',
+  variant?: 'primary' | 'toggle' | 'outline' | 'ghost' | 'topbar' | 'disabled',
   size?: 'default' | 'sm' | 'lg' | 'icon',
 }
 
 export default function Button({ children, className, variant = 'primary', size = 'default', ...rest }: ButtonProps) {
-  const baseStyles = "font-semibold shadow-md transition font-secondary";
+  const baseStyles = "font-semibold shadow-md transition font-secondary hover:bg-secondary dark:hover:bg-dark-secondary";
 
   const variants: Record<string, string> = {
-    primary: 'bg-accent dark:bg-dark-accent text-white hover:bg-dark-accent dark:hover:bg-accent rounded-lg',
-    toggle: 'bg-accent dark:bg-dark-accent text-yellow-500 hover:bg-dark-accent dark:hover:bg-accent rounded-full',
-    outline: 'border border-input bg-transparent hover:bg-dark-accent dark:hover:bg-accent rounded-lg',
-    ghost: 'bg-transparent hover:bg-dark-accent dark:hover:bg-accent rounded-lg',
-    topbar: 'bg-trasparent hover:bg-dark-accent dark:hover:bg-accent rounded-full',
+    primary: 'bg-primary dark:bg-dark-primary rounded-lg text-foreground',
+    toggle: 'bg-primary dark:bg-dark-primary text-yellow-300 dark:text-yellow-800 rounded-full',
+    outline: 'border border-input bg-transparent rounded-lg',
+    ghost: 'bg-transparent rounded-lg',
+    topbar: 'bg-trasparent rounded-full',
+    disabled: 'bg-gray-300 dark:bg-gray-700 rounded-lg text-gray-500 cursor-not-allowed',
   };
 
   const sizes: Record<string, string> = {

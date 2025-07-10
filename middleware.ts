@@ -11,14 +11,26 @@ export async function middleware(request: NextRequest) {
   const isAuth = !!session;
 
   const publicPages = ['/', '/login', '/register'];
-  
+
+
+  // A sessão está iniciada e o usuário tenta acessar publicPages
+  // o usuário é redirecionado para dashboard
   if (isAuth && publicPages.includes(pathname)) {
     return NextResponse.redirect(new URL('/dashboard', request.url));
   }
   
+  // Redireciona para login caso o usuário tente acessar /dashboard
+  // sem uma sessão ativa
   if (!isAuth && pathname.startsWith('/dashboard')) {
     return NextResponse.redirect(new URL('/login', request.url));
   }
+
+  // Redireciona para login caso o usuário tente acessar o formulário de registro de senha
+  // sem uma sessão ativa
+  if (!isAuth && pathname.startsWith('/register/password')) {
+    return NextResponse.redirect(new URL('/login?error=NoSession', request.url));
+  }
+
 
   const origin = request.headers.get('origin');
   const protectedApiRoutes = pathname.startsWith('/api/invite/') || pathname.startsWith('/api/register/');

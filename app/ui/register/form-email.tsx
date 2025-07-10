@@ -5,8 +5,10 @@ import { useState } from "react";
 import Button from "@/app/ui/button";
 import Input from "@/app/ui/input";
 import { AtSymbolIcon, UserIcon, ExclamationCircleIcon, KeyIcon } from "@heroicons/react/24/outline";
+import withInviteValidation from "./invite-validate";
+import Logo from "@/app/ui/logo";
 
-export default function RegisterWithEmailForm() {
+function RegisterWithEmailForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
@@ -46,6 +48,12 @@ export default function RegisterWithEmailForm() {
   };
 
   return (
+    <>
+    <Logo />
+    <h1 className="text-3xl md:text-4xl font-bold mt-6">Registrar</h1>
+    <p className="mt-2 text-base md:text-lg max-w-xl font-secondary">
+      Insira seus dados.
+    </p>
     <form onSubmit={handleSubmit} className="mt-6 w-full max-w-sm">
         <Input
           placeholder="Seu nome"
@@ -91,6 +99,9 @@ export default function RegisterWithEmailForm() {
       <Button type="submit" disabled={loading}>
         {loading ? "Registrando..." : "Continuar"}
       </Button>
-    </form>
+    </form>       
+    </>
   );
 }
+
+export default withInviteValidation(RegisterWithEmailForm);

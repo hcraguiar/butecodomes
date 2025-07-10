@@ -14,31 +14,26 @@ const config: Config = {
       },
       colors: {
         // Paleta clara (modo light)
-        primary: '#F5E1C9',
-        secondary: '#B59F84',
-        accent: '#775A38',
-        info: '#678DA0',
-        highlight: '#C9E6F5',
-        contrast: '#173A4B',
-
-        // Backgrounds e texto padrão
-        background: '#F9FAFB',
-        muted: "#F1F5F9",
-        foreground: "#111827",
-        'muted-foreground': "#6b7280",
-
+        background: '#F5DFC7',
+        session: '#EDD8C1',
+        primary: '#D38C3C',
+        secondary: '#9FE486',
+        accent: '#69DD82',
+        
+        
         // Dark mode (usado com classes 'dark')
-        'dark-primary': '#464039',       // versão escura do primary
-        'dark-secondary': '#786C5F',     // versão escura do secondary
-        'dark-accent': '#AB8A65',        // para botões em dark
-        'dark-info': '#627A85',
-        'dark-highlight': '384145',
-        'dark-contrast': '#E5E7EB',
-    
-        'dark-background': '#111827',
-        'dark-muted': '#1F2937',
-        'dark-foreground': '#F9FAFB',
-        'dark-muted-foreground': '#9CA3AF',
+        'dark-background': '#130F0A',
+        'dark-session': '#1A1712',
+        'dark-primary': '#DBC19E',       
+        'dark-secondary': '#1E5943',     
+        'dark-accent': '#56A1C0',        
+        
+        
+        // Texto padrão
+        foreground: "#080502",
+        muted: "#63605C",
+        'dark-foreground': '#F6EFE7',
+        'dark-muted': '#9E9992',
       },
       fontFamily: {
         primary: ['var(--font-pacifico)', 'cursive'],

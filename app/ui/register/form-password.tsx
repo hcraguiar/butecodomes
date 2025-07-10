@@ -1,10 +1,9 @@
 "use client";
 
 import { KeyIcon, ExclamationCircleIcon } from "@heroicons/react/24/outline";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Input from "@/app/ui/input";
 import Button from "@/app/ui/button";
-
 import React, { useState } from "react";
 
 export default function FormPassword() {
@@ -13,8 +12,7 @@ export default function FormPassword() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const email = searchParams.get("Email");
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -27,7 +25,7 @@ export default function FormPassword() {
     setLoading(true);
     const res = await fetch("/api/register/password", {
       method: "POST",
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({ password }),
     });
 
     const data = await res.json();

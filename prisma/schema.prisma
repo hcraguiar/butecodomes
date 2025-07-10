@@ -38,6 +38,8 @@ model User {
   reviews Review[]
   createdInvites Invite[] @relation("CreatedInvites")
   acceptedInvites Invite[] @relation("AcceptedInvites")
+  createdCheckIn CheckIn[]
+  checkIn CheckInParticipant[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
@@ -92,12 +94,43 @@ model Buteco {
   longitude Float
   image_url String
   logo_url String
-  rating Float @default(0)
+  rating Decimal @default(0)
+  food Decimal @default(0)
+  drink Decimal @default(0)
+  ambiance Decimal @default(0)
+  service Decimal @default(0)
+  price Decimal @default(0)
   reviews Review[]
   calendar Calendar[]
+  checkIn CheckIn[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
+}
+
+model CheckIn {
+  id String @id @default(uuid())
+  buteco Buteco @relation(fields: [butecoId], references: [id])
+  butecoId String
+  createdBy User @relation(fields: [createdById], references: [id])
+  createdById String
+  participants CheckInParticipant[]
+  review Review[]
+
+  createdAt DateTime @default(now())
+}
+
+model CheckInParticipant {
+  id        String   @id @default(uuid())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  checkIn   CheckIn  @relation(fields: [checkInId], references: [id])
+  checkInId String
+  hasEvaluated Boolean @default(false)
+
+  createdAt DateTime @default(now())
+
+  @@unique([userId, checkInId]) // Um usuário não pode ser marcado duas vezes no mesmo check-in
 }
 
 model Review {
@@ -109,12 +142,16 @@ model Review {
   service Int
   ambiance Int
   price Int
-  rating Float
+  rating Decimal
+  checkInId String?
+  checkIn CheckIn? @relation(fields: [checkInId], references: [id])
   user User @relation(fields: [user_id], references: [id])
   buteco Buteco @relation(fields: [buteco_id], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
+
+  @@unique([user_id, buteco_id])
 }
 
 model Calendar {

@@ -5,15 +5,15 @@ import LoginForm from '@/app/ui/login/login-form';
 import GoogleSignInButton from '@/app/ui/login/google';
 import { Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { ExclamationCircleIcon } from '@heroicons/react/24/outline';
 import toast from 'react-hot-toast';
 
 const messages: Record<string, string> = {
   AccessDenied: 'Acesso negado.',
+  NoSession: 'Você precisa estar logado.',
   InvalidCredentials: 'Credenciais inválidas.',
   MissingFields: 'Preencha todos os campos.',
   InvalidInvite: 'Convite inválido.',
-  AccountCreated: 'Sua conta foi criada com sucesso',
+  AccountCreated: 'Sua conta foi criada com sucesso.',
 }
 
 

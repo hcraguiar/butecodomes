@@ -37,3 +37,5 @@ next-env.d.ts
 
 /.trash
 /app/api/test
+.local
+.http

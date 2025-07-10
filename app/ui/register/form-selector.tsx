@@ -1,8 +1,6 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
-import { validateInviteToken } from "@/app/lib/invite-validator";
 import { signIn } from "next-auth/react";
 import Button from "@/app/ui/button";
 import Logo from "@/app/ui/logo";
@@ -11,31 +9,6 @@ export default function FormSelector() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
-
-  const [validating, setValidating] = useState(true);
-  const [isValid, setIsValid] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    async function validate() {
-      if (!token) {
-        setError("Token de convite ausente.");
-        setValidating(false);
-        return;
-      }
-
-      const isValidToken = await validateInviteToken(token);
-      if (!isValidToken) {
-        setError("Convite inválido, expirado ou já utilizado.");
-      } else {
-        setIsValid(true);
-      }
-
-      setValidating(false);
-    }
-
-    validate();
-  }, [token]);
 
   const handleEmailRegister = () => {
     router.push(`/register/email?token=${token}`);
@@ -50,9 +23,6 @@ export default function FormSelector() {
     });
   };
 
-  if (validating) return <p className="text-sm text-muted-foreground">Validando convite...</p>;
-
-  if (!isValid) return <p className="text-sm text-red-600">{error}</p>;
 
   return (
     <div className="mt-6 w-full max-w-sm">

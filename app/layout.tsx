@@ -42,13 +42,23 @@ export default function RootLayout({
 
   return (
     <html lang="pt-br" className={`${darkMode ? 'dark' : ''} font-primary ${inter.variable} ${pacifico.variable} ${playfair.variable}`}>
-      <body className='flex flex-col min-h-screen bg-primary dark:bg-dark-primary text-foreground dark:text-muted font-secondary transition-all relative'>
+      <body className='flex flex-col min-h-screen bg-background dark:bg-dark-background text-foreground dark:text-dark-foreground font-secondary transition-all relative'>
         {/* Botão de alternância de tema */}
         <div className={`absolute top-4 right-4 z-10 md:top-6 md:right-6`}>
           <Button onClick={() => setDarkMode(!darkMode)} variant="toggle" size='icon'>
             <span>{darkMode ? <MoonIcon className='h-5 w-5' /> : <SunIcon className='h-5 w-5' />}</span>
           </Button>
-          <Toaster />
+          <div className="fixed z-[9999] top-0 left-0 w-full">
+            <Toaster 
+              position='top-center'
+              toastOptions={{
+                className: '',
+                style: {
+                  zIndex: 9999,
+                }
+              }}
+            />
+          </div>
         </div>
 
         <main className="">

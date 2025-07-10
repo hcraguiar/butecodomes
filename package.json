@@ -16,33 +16,40 @@
     "@prisma/client": "^6.5.0",
     "@tailwindcss/forms": "^0.5.10",
     "@uploadthing/react": "^7.3.0",
+    "@vercel/blob": "^1.0.0",
     "autoprefixer": "10.4.20",
     "bcryptjs": "^3.0.2",
     "cheerio": "^1.0.0",
     "clsx": "^2.1.1",
     "framer-motion": "^12.6.3",
-    "next": "latest",
+    "leaflet": "^1.9.4",
+    "lucide-react": "^0.503.0",
+    "lucide-solid": "^0.511.0",
+    "next": "15.3.2",
     "next-auth": "5.0.0-beta.25",
     "postcss": "8.5.1",
     "postgres": "^3.4.5",
     "prisma": "^6.5.0",
-    "react": "latest",
-    "react-dom": "latest",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "react-dropzone": "^14.3.8",
     "react-hook-form": "^7.55.0",
     "react-hot-toast": "^2.5.2",
+    "react-leaflet": "^5.0.0",
     "react-qr-code": "^2.0.15",
     "swr": "^2.3.3",
     "tailwindcss": "3.4.17",
     "typescript": "5.7.3",
     "uploadthing": "^7.6.0",
     "use-debounce": "^10.0.4",
+    "vercel": "^41.6.2",
     "zod": "^3.24.1"
   },
   "devDependencies": {
     "@types/leaflet": "^1.9.16",
     "@types/node": "22.10.7",
-    "@types/react": "19.0.7",
-    "@types/react-dom": "19.0.3"
+    "@types/react": "19.1.4",
+    "@types/react-dom": "19.1.5"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
@@ -52,6 +59,10 @@
       "esbuild",
       "prisma",
       "sharp"
-    ]
+    ],
+    "overrides": {
+      "@types/react": "19.1.4",
+      "@types/react-dom": "19.1.5"
+    }
   }
 }

@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
-import { ChevronDownIcon, QrCodeIcon, UserIcon, UsersIcon } from '@heroicons/react/24/outline'
+import { QrCodeIcon, UserIcon } from '@heroicons/react/24/outline'
 import SignOutButton from '../login/sign-out'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -47,10 +47,10 @@ export default function UserDropdown({ user }: UserDropdownProps) {
       </Button>
 
       {open && (
-        <div className="absolute right-0 mt-2 w-64 bg-white dark:bg-surface border border-muted rounded-md shadow-lg z-50 py-2 animate-fade-in">
+        <div className="absolute right-0 mt-2 w-64 bg-white dark:text-foreground border border-muted rounded-md shadow-lg z-50 py-2 animate-fade-in">
           <div className="px-4 py-2">
             <p className="text-sm font-semibold text-foreground">{user.name}</p>
-            <p className="text-xs text-muted-foreground truncate">{user.email}</p>
+            <p className="text-xs text-muted truncate">{user.email}</p>
           </div>
           <div className="border-t border-muted my-1" />
           <div className="px-4 py-2 space-y-2">
@@ -67,23 +67,11 @@ export default function UserDropdown({ user }: UserDropdownProps) {
             >
             <QrCodeIcon className="w-5 h-5 mr-2" /> Convites
           </Link>
-          <div className="border-t border-muted my-1" />
+          <div className="border-t border-muted dark:border-dark-muted my-1" />
           <SignOutButton />
           </div>
         </div>
       )}
     </div>
-  )
-}
-
-function DropdownItem({ icon, label, onClick }: { icon: React.ReactNode, label: string, onClick: () => void }) {
-  return (
-    <button
-      onClick={onClick}
-      className="flex items-center w-full px-4 py-2 text-sm text-left text-foreground hover:bg-muted dark:hover:bg-muted/20 transition-colors"
-    >
-      <span className="mr-3">{icon}</span>
-      {label}
-    </button>
   )
 }

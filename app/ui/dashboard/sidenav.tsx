@@ -2,7 +2,6 @@
 
 import NavLinks from '@/app/ui/dashboard/nav-links';
 import Logo from '@/app/ui/logo';
-import SignOutButton from '@/app/ui/login/sign-out';
 
 export default function SideNav() {
   return (
@@ -13,7 +12,6 @@ export default function SideNav() {
       <div className="flex grow flex-row justify-between space-x-2 md:flex-col md:space-x-0 md:space-y-2">
         <NavLinks />
         <div className="hidden h-auto w-full grow rounded-md bg-beige dark:bg-darkBrown md:block"></div>
-          {/* <SignOutButton /> */}
       </div>
     </div>
   );

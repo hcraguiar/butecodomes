@@ -1,5 +1,4 @@
 import { prisma } from "@/prisma/prisma";
-import { InviteCard } from "../ui/dashboard/invite/invite-card";
 
 export async function validateInviteToken(token: string): Promise<boolean> {
   try {

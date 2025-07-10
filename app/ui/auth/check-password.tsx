@@ -25,7 +25,7 @@ export default function CheckPasswordPage() {
         if (data.hasPassword) {
           router.push('/dashboard');
         } else {
-          router.push(`/register/password?Email=${email}`);
+          router.push(`/register/password`);
         }
       } catch (e) {
         console.error("Erro ao checar senha:", (e as Error).message);
