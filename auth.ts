@@ -7,6 +7,7 @@ import { compare } from "bcryptjs";
 import { z } from "zod";
 import { registerUserFromOAuth } from "@/app/lib/oauth-register";
 import { cookies } from "next/headers";
+import { Role } from "@prisma/client";
 
 export const runtime = "edge";
 const neon = new Pool({ connectionString: process.env.DATABASE_URL });
@@ -16,47 +17,54 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   providers: [
     Credentials({
       async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) throw new Error("MissingFields");;
-        const parsedCredentials = z
-          .object({ email: z.string().email(), password: z.string().min(6) })
-          .safeParse(credentials);
+        if (!credentials?.email || !credentials?.password) 
+          throw new Error("MissingFields");
 
-        if (parsedCredentials.success) {
-          const {email, password } = parsedCredentials.data;
-          const client = await neon.connect();
-          try {
-            const result = await client.query(`SELECT * FROM users WHERE email=$1`, [email]);
-            const user = result.rows[0];
-            if (!user || !user.password) throw new Error("AccessDenied");
-            const pwdMatch = await compare(password, user.password);
-            if (!pwdMatch) throw new Error("InvalidCredentials");
-            
-            return { id: user.id, email: user.email, name: user.name, image: user.image } as any;
-          } finally {
-            client.release();
-          }
+        const parsedCredentials = z.object({ 
+          email: z.string().email(), 
+          password: z.string().min(6) 
+        }).safeParse(credentials);
+
+        if (!parsedCredentials.success) throw new Error("InvalidCredentials");
+
+        const {email, password } = parsedCredentials.data;
+        const client = await neon.connect();
+
+        try {
+          const result = await client.query(`SELECT * FROM users WHERE email=$1`, [email]);
+          const user = result.rows[0];
+
+          if (!user || !user.password) throw new Error("AccessDenied");
+
+          const pwdMatch = await compare(password, user.password);
+          if (!pwdMatch) throw new Error("InvalidCredentials");
+          
+          return { 
+            id: user.id, 
+            email: user.email, 
+            name: user.name, 
+            image: user.image 
+          } as any;
+        } finally {
+          client.release();
         }
-        throw new Error("InvalidCredentials");
       }
     }),
+
     Google({
       clientId: process.env.AUTH_GOOGLE_ID!,
       clientSecret: process.env.AUTH_GOOGLE_SECRET!,
       authorization: {
-        params: {
-          scope: "openid email profile",
-        }
-      }
+        params: { scope: "openid email profile" },
+      },
     }),
-
   ],
+
   callbacks: {
     async signIn({ user, account }) {
       if (account?.provider === 'google' && user?.email) {
-
         const cookieStore = await cookies();
         const inviteToken = cookieStore.get('inviteToken')?.value;
-        
         const client = await neon.connect();
 
         try {
@@ -75,10 +83,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
             if (!register.success) {
               console.error("Erro ao registrar usuário OAuth com convite:", register.error);
-              throw new Error('InvalidInvite');
+              throw new Error(register.error === 'TokenExpired' ? 'InviteExpired' : 'InvalidInvite');
             }
-           
-            return true;
           } 
           
           return true;
@@ -98,14 +104,18 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       if (account && user && user?.email) {
         const client = await neon.connect();
         try {
-          const result = await client.query(`SELECT id FROM users WHERE email=$1`, [user.email]);
+          const result = await client.query(
+            `SELECT id, role FROM users WHERE email=$1`, [user.email]
+          );
 
           if (result.rows.length > 0) {
             token.id = result.rows[0].id;
+            token.role = result.rows[0].role;
           }
         } finally {
           client.release();
         }
+
         token.email = user.email;
         token.exp = Math.floor(Date.now() / 1000) + 60 * 60; // expira em 1 hora
       }
@@ -116,6 +126,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     async session({ session, token }) {
       if (token?.id) session.user.id = String(token.id);
       if (token?.email) session.user.email = String(token.email);
+      if (token?.role) session.user.role = token.role as Role;
       return session;
     },
 
@@ -123,7 +134,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       if (url.startsWith('/')) return `${baseUrl}${url}`;
       if (new URL(url).origin === baseUrl) return url;
       return baseUrl;
-    }
-    
+    },
   },
 })

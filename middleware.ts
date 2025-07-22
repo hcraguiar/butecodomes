@@ -44,12 +44,11 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    '/',
-    '/login',
-    '/dashboard/:path*',
-    '/auth/:path*',
-    '/api/invite/:path*',
-    '/api/register/:path*',
-    '/((?!api|_next/static|_next/image|.*\\.png$).*)'
+  '/dashboard/:path*',
+  '/register/password/:path*',
+  '/api/invite/:path*',
+  '/api/register/:path*',
+  '/',
+  '/login'
   ],
 };
