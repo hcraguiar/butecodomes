@@ -1,11 +1,5 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
   previewFeatures = ["driverAdapters"]
 }
 
@@ -15,148 +9,146 @@ datasource db {
 }
 
 model Invite {
-  id String @id @default(uuid())
-  token String @unique
-  expiresAt DateTime
-  invitedBy User @relation("CreatedInvites", fields: [invitedById], references: [id])
-  invitedById String
-  acceptedBy User? @relation("AcceptedInvites", fields: [acceptedById], references: [id])
+  id           String   @id @default(uuid())
+  token        String   @unique
+  expiresAt    DateTime
+  invitedById  String?
   acceptedById String?
+  createdAt    DateTime @default(now())
+  acceptedBy   User?    @relation("AcceptedInvites", fields: [acceptedById], references: [id])
+  invitedBy    User?    @relation("CreatedInvites", fields: [invitedById], references: [id])
+}
 
-  createdAt DateTime @default(now())
+enum Role {
+  USER
+  ADMIN
+  MODERATOR
 }
 
 model User {
-  id  String  @id @default(uuid())
-  name String?
-  email String @unique
-  emailVerified DateTime?
-  image String?
-  password String?
-  accounts Account[]
-  sessions Session[]
-  reviews Review[]
-  createdInvites Invite[] @relation("CreatedInvites")
-  acceptedInvites Invite[] @relation("AcceptedInvites")
-  createdCheckIn CheckIn[]
-  checkIn CheckInParticipant[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+  id              String               @id @default(uuid())
+  name            String?
+  email           String               @unique
+  emailVerified   DateTime?
+  image           String?
+  password        String?
+  role            Role                 @default(USER)
+  createdAt       DateTime             @default(now())
+  updatedAt       DateTime             @default(now()) @updatedAt
+  accounts        Account[]
+  createdCheckIn  CheckIn[]
+  checkIn         CheckInParticipant[]
+  acceptedInvites Invite[]             @relation("AcceptedInvites")
+  createdInvites  Invite[]             @relation("CreatedInvites")
+  reviews         Review[]
+  sessions        Session[]
 
   @@map("users")
 }
 
 model Account {
-  userId String
-  type String
-  provider String
+  userId            String
+  type              String
+  provider          String
   providerAccountId String
-  refresh_token String? @db.Text
-  access_token String? @db.Text
-  expires_at Int?
-  token_type String?
-  scope String?
-  id_token String? @db.Text
-  session_state String?
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @default(now()) @updatedAt
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@id([provider, providerAccountId])
 }
 
 model Session {
-  sessionToken String @unique
-  userId String
-  expires DateTime
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @default(now()) @updatedAt
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model VerificationToken {
   identifier String
-  token String
-  expires DateTime
+  token      String
+  expires    DateTime
 
   @@id([identifier, token])
 }
 
 model Buteco {
-  id  String  @id @default(uuid())
-  name String
-  address String
-  latitude Float
+  id        String     @id @default(uuid())
+  name      String
+  address   String
+  latitude  Float
   longitude Float
   image_url String
-  logo_url String
-  rating Decimal @default(0)
-  food Decimal @default(0)
-  drink Decimal @default(0)
-  ambiance Decimal @default(0)
-  service Decimal @default(0)
-  price Decimal @default(0)
-  reviews Review[]
-  calendar Calendar[]
-  checkIn CheckIn[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+  logo_url  String
+  rating    Float      @default(0)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @default(now()) @updatedAt
+  ambiance  Float      @default(0)
+  drink     Float      @default(0)
+  food      Float      @default(0)
+  price     Float      @default(0)
+  service   Float      @default(0)
+  calendar  Calendar[]
+  checkIn   CheckIn[]
+  reviews   Review[]
 }
 
 model CheckIn {
-  id String @id @default(uuid())
-  buteco Buteco @relation(fields: [butecoId], references: [id])
-  butecoId String
-  createdBy User @relation(fields: [createdById], references: [id])
-  createdById String
+  id           String               @id @default(uuid())
+  butecoId     String
+  createdById  String
+  createdAt    DateTime             @default(now())
+  buteco       Buteco               @relation(fields: [butecoId], references: [id], onDelete: Cascade)
+  createdBy    User                 @relation(fields: [createdById], references: [id], onDelete: Cascade)
   participants CheckInParticipant[]
-  review Review[]
-
-  createdAt DateTime @default(now())
+  review       Review[]
 }
 
 model CheckInParticipant {
-  id        String   @id @default(uuid())
-  user      User     @relation(fields: [userId], references: [id])
-  userId    String
-  checkIn   CheckIn  @relation(fields: [checkInId], references: [id])
-  checkInId String
-  hasEvaluated Boolean @default(false)
+  id           String   @id @default(uuid())
+  userId       String
+  checkInId    String
+  hasEvaluated Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  checkIn      CheckIn  @relation(fields: [checkInId], references: [id], onDelete: Cascade)
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  createdAt DateTime @default(now())
-
-  @@unique([userId, checkInId]) // Um usuário não pode ser marcado duas vezes no mesmo check-in
+  @@unique([userId, checkInId])
 }
 
 model Review {
-  id  String  @id @default(uuid())
-  user_id String
+  id        String   @id @default(uuid())
+  user_id   String
   buteco_id String
-  food Int
-  drink Int
-  service Int
-  ambiance Int
-  price Int
-  rating Decimal
-  checkInId String?
-  checkIn CheckIn? @relation(fields: [checkInId], references: [id])
-  user User @relation(fields: [user_id], references: [id])
-  buteco Buteco @relation(fields: [buteco_id], references: [id])
-
+  food      Int
+  drink     Int
+  service   Int
+  ambiance  Int
+  price     Int
+  rating    Float
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
+  checkInId String?
+  buteco    Buteco   @relation(fields: [buteco_id], references: [id], onDelete: Cascade)
+  checkIn   CheckIn? @relation(fields: [checkInId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
 
   @@unique([user_id, buteco_id])
 }
 
 model Calendar {
-  id String @id @default(uuid())
-  date DateTime
-  buteco Buteco @relation(fields: [buteco_id], references: [id])
+  id        String   @id @default(uuid())
+  date      DateTime
   buteco_id String
+  buteco    Buteco   @relation(fields: [buteco_id], references: [id])
 }
