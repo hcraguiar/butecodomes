@@ -1,5 +1,4 @@
-import ButecoForm from "@/app/ui/dashboard/butecos/create-form";
-
+import ButecoForm from "../components/create-form";
 
 export default function Page() {
   return (

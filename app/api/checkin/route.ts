@@ -1,36 +1,49 @@
 import { NextResponse, NextRequest } from "next/server";
 import { prisma } from "@/prisma/prisma";
 import { auth } from "@/auth";
+import { create } from "domain";
 
 export async function POST(req: NextRequest) {
   const session = await auth();
   const userId = session?.user?.id;
-  if (!userId) return NextResponse.json({ error: 'Não autorizado'}, { status: 401 });
+
+  if (!userId) {
+    return NextResponse.json({ error: 'Não autorizado'}, { status: 401 });
+  }
 
   const body = await req.json();
-  const { butecoId, participants } = body;
+  const { butecoId, participantIds, createdAt } = body;
 
-  if (!butecoId) return NextResponse.json({ error: 'Missing fields' }, { status: 400 })
+  if (!butecoId) {
+    return NextResponse.json({ error: 'Missing fields' }, { status: 400 })
+  }
 
-  const allParticipants = Array.from(new Set([userId, ...participants]));
+  const allParticipants = Array.from(new Set([...participantIds]));
 
   try {
-    const participant = await prisma.checkInParticipant.findFirst({
+    const alreadyCheckedIn = await prisma.checkInParticipant.findMany({
       where:{ 
         checkIn: { butecoId },
-        userId,
+        userId: { in: allParticipants },
       },
       select: {
         userId: true
       },
     })
 
-    if (participant) return NextResponse.json({ error: 'Not allowed'}, { status: 405 })
+    const alreadyIds = new Set(alreadyCheckedIn.map((p) => p.userId))
+
+    const validParticipants = allParticipants.filter((id) => !alreadyIds.has(id))
+
+    if (validParticipants.length === 0) {
+      return NextResponse.json({ message: 'Nenhum participante elegível para check-in'}, { status: 200 })
+    }
 
     const checkIn = await prisma.checkIn.create({
       data: {
         butecoId,
         createdById: userId,
+        createdAt: new Date(createdAt) ?? undefined,
         participants: {
           create: allParticipants.map((userId: string) => ({ user: { connect: { id: userId }}}))
         },

@@ -8,6 +8,7 @@ declare module "next-auth" {
       email: string;
       role: Role;
     } & DefaultSession["user"];
+    accessToken: string;
   }
 
   interface User extends DefaultUser {
@@ -21,5 +22,6 @@ declare module "next-auth/jwt" {
     id: string;
     email: string;
     role: Role;
+    accessToken: string;
   }
 }

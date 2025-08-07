@@ -1,5 +1,5 @@
 import Button from "@/app/ui/button"
-import ButecoList from "@/app/ui/dashboard/butecos/buteco-list";
+import ButecoList from "@/app/dashboard/butecos/components/buteco-list";
 import Link from "next/link";
 
 // app/batecos/page.tsx

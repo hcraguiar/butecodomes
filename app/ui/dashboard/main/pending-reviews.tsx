@@ -45,7 +45,7 @@ export default function PendingReviews({ pendentes, action }: Props) {
                 </p>
                 <p className="text-xs">Check-in em {formatDateToLocal(p.createdAt)}</p>
               </div>
-              <Button size="sm" onClick={() => action(buteco.id, checkInId)} variant="disabled" disabled>Avaliar</Button>
+              <Button size="sm" onClick={() => action(buteco.id, checkInId)}>Avaliar</Button>
             </li>
           )
         })}

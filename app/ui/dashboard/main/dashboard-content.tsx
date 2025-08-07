@@ -10,6 +10,7 @@ import { DashboardData } from "@/app/lib/types";
 import { useModal } from "@/app/context/modal-context";
 import Image from "next/image";
 import EvaluationForm from "../reviews/review-form";
+import { useSession } from "next-auth/react";
 
 export default function DashboardContent() {
   const [data, setData] = useState<DashboardData | null>(null);
@@ -19,7 +20,7 @@ export default function DashboardContent() {
 
   const handleReview = async (butecoId: string, checkInId: string) => {
     try {
-      const res = await fetch(`/api/buteco/${butecoId}`)
+      const res = await fetch(`/api/butecos/${butecoId}`, { cache: 'no-store'})
       if (!res.ok) throw new Error("Erro ao buscar dados do buteco")
 
       const buteco = await res.json();
@@ -32,7 +33,7 @@ export default function DashboardContent() {
               <Image src={buteco.logo_url} alt="Logo" width={100} height={100} />
             </div>
             <EvaluationForm 
-              buteco={buteco}
+              butecoId={butecoId}
               checkInId={checkInId}
               onDone={() => {
                 setModalOpen(false);
@@ -53,6 +54,7 @@ export default function DashboardContent() {
         setLoading(true)
         const res = await fetch('/api/dashboard', {
           method: 'GET',
+          next: { revalidate: 0 }
         })
 
         if (!res.ok) {

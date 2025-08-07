@@ -1,28 +1,32 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { Eye, Trash2 } from 'lucide-react';
+import { Eye, Trash2, UserCheck2 } from 'lucide-react';
 import Button from '@/app/ui/button';
 import CheckInButton from './check-in-button';
 
 type Props = {
   butecoId: string;
   checkInId?: string;
+  status: boolean
   isMobile?: boolean;
   onDelete: () => void;
   onView: () => void;
   onReview: () => void;
   onCheckInChange?: (checkedIn: boolean, checkInId?: string) => void;
+  openCheckInForm: () => void;
 };
 
 export default function ButecoActions({
   butecoId,
   checkInId,
+  status,
   isMobile = false,
   onDelete,
   onView,
   onReview,
-  onCheckInChange
+  onCheckInChange,
+  openCheckInForm,
 }: Props) {
   const [open, setOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -58,9 +62,11 @@ export default function ButecoActions({
             <CheckInButton
               butecoId={butecoId}
               checkInId={checkInId}
+              status={status}
               reviewForm={onReview}
               closePopUp={handleClose}
               onCheckInChange={onCheckInChange}
+              onOpenCheckInModal={openCheckInForm}
             />
             <button onClick={() => { onView(); handleClose(); }} className="w-full px-4 py-2 text-sm flex items-center">
               <Eye className="w-5 h-5 mr-2" /> Visualizar
@@ -84,9 +90,11 @@ export default function ButecoActions({
       <CheckInButton
         butecoId={butecoId}
         checkInId={checkInId}
+        status={status}
         reviewForm={onReview}
         closePopUp={() => {}}
         onCheckInChange={onCheckInChange}
+        onOpenCheckInModal={openCheckInForm}
       />
       <Button variant="outline" size="icon" onClick={onView} title="Visualizar">
         <Eye className="w-5 h-5" />

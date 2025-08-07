@@ -30,7 +30,7 @@
     ".next/types/**/*.ts",
     "app/lib/placeholder-data.ts",
     "scripts/seed.js",
-    "app/lib/next-auth.d.ts",
+    "app/lib/next-auth.d.ts", "app/api/butecos/available-users",
   ],
   "exclude": ["node_modules"]
 }

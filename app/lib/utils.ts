@@ -20,3 +20,23 @@ export const formatDateToLocal = (
   const formatter = new Intl.DateTimeFormat(locale, options);
   return formatter.format(date);
 };
+
+export const utcToLocal = (
+  dateStr: string,
+  timezone: string = 'America/Sao_Paulo',
+) => {
+  const dateObj = new Date(dateStr);
+  const options: Intl.DateTimeFormatOptions = {
+    day: 'numeric',
+    month: 'numeric',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    timeZone: timezone, 
+    hourCycle: 'h23',
+  };
+  const formatter = new Intl.DateTimeFormat("pt-BR", options)
+
+  return formatter.format(dateObj)
+}
+

@@ -2,15 +2,15 @@
 
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import Input from "../../input";
+import Input from "@/app/ui/input";
 import { 
   DocumentTextIcon, 
   GlobeAltIcon, 
   MapPinIcon, 
 } from "@heroicons/react/24/outline";
 import Image from "next/image";
-import Button from "../../button";
-import ImageDropzone from "../../image-dropzone";
+import Button from "@/app/ui/button";
+import ImageDropzone from "@/app/ui/image-dropzone";
 import { ButecoCard } from "./buteco-card";
 import { z } from "zod";
 import { useForm } from  "react-hook-form";

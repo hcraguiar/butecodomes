@@ -4,7 +4,7 @@
 import { Star } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import Button from '@/app/ui/button';
-import { ButecoListType } from '@/app/lib/types';
+import { ButecoListType, FormReviewType, Review } from '@/app/lib/types';
 import toast from 'react-hot-toast';
 
 const CATEGORIAS = {
@@ -16,12 +16,14 @@ const CATEGORIAS = {
 }
 
 type Props = {
-  buteco: ButecoListType
-  checkInId?: string
+  butecoId: string
+  checkInId: string
+  userReview?: FormReviewType | Review
+  userId?: string | undefined
   onDone?: () => void
 }
 
-export default function EvaluationForm({ buteco, checkInId, onDone }: Props) {
+export default function EvaluationForm({ butecoId, checkInId, userReview, userId, onDone }: Props) {
   const [ratings, setRatings] = useState({
     food: 0,
     drink: 0,
@@ -32,7 +34,7 @@ export default function EvaluationForm({ buteco, checkInId, onDone }: Props) {
   const [mean, setMean] = useState(0)
   const [loading, setLoading] = useState(false)
 
-  const review = buteco.reviews ? buteco.reviews[0] : null;
+  const review = userReview ? userReview : null;
 
   useEffect(() => {
     if (review) {
@@ -59,33 +61,6 @@ export default function EvaluationForm({ buteco, checkInId, onDone }: Props) {
 
   const handleSubmit = async () => {
     setLoading(true)
-    // let res = null
-    // {review ? 
-    //   res = await fetch('/api/reviews', {
-    //     method: 'PUT',
-    //     headers: { 'Content-Type': 'application/json' },
-    //     body: JSON.stringify({
-    //       ...ratings,
-    //       rating: mean,
-    //       id: review.id,
-    //     }),
-    //   })
-    //   : res = await fetch('/api/reviews', {
-    //     method: 'POST',
-    //     headers: { 'Content-Type': 'application/json' },
-    //     body: JSON.stringify({
-    //       butecoId: buteco.id,
-    //       ratings: {...ratings, rating: mean},
-    //       checkInId: checkInId,
-    //     }),
-    //   })
-    // }
-
-
-    // if (res.ok) {
-    //   onDone?.()
-    // }
-
     const body = review ?
       {
         ...ratings,
@@ -93,9 +68,10 @@ export default function EvaluationForm({ buteco, checkInId, onDone }: Props) {
         id: review.id,
       }
       : {
-        butecoId: buteco.id,
+        butecoId: butecoId,
         ratings: { ...ratings, rating: mean },
-        checkInId: checkInId ?? buteco.checkIn[0]?.id,
+        checkInId: checkInId,
+        userId: userId,
       };
 
     const method = review ? 'PUT' : 'POST';

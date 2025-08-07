@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { Star, MapPin } from 'lucide-react'; // Pode trocar por ícones de sua preferência
+import { Star, MapPin } from 'lucide-react';
 import { Buteco } from '@/app/lib/types';
 import CategoryIcon from './icons/category-icon';
 

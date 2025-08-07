@@ -8,6 +8,8 @@ import { z } from "zod";
 import { registerUserFromOAuth } from "@/app/lib/oauth-register";
 import { cookies } from "next/headers";
 import { Role } from "@prisma/client";
+import { signToken } from "./app/lib/jwt";
+import { resourceLimits } from "worker_threads";
 
 export const runtime = "edge";
 const neon = new Pool({ connectionString: process.env.DATABASE_URL });
@@ -118,6 +120,11 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
         token.email = user.email;
         token.exp = Math.floor(Date.now() / 1000) + 60 * 60; // expira em 1 hora
+        token.accessToken = await signToken({
+          id: token.id,
+          email: token.email,
+          role: token.role,
+        })
       }
 
       return token;
@@ -127,6 +134,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       if (token?.id) session.user.id = String(token.id);
       if (token?.email) session.user.email = String(token.email);
       if (token?.role) session.user.role = token.role as Role;
+      if (token?.accessToken) session.accessToken = String(token.accessToken);
       return session;
     },
 

@@ -3,7 +3,6 @@
 import Image from 'next/image';
 import ButecoActions from './buteco-actions';
 import { ButecoListType } from '@/app/lib/types';
-import { useState } from 'react';
 
 type Props = {
   buteco: ButecoListType
@@ -12,10 +11,13 @@ type Props = {
   onReview: () => void;
   checkInId?: string;
   onCheckInChange: (checkIn: boolean, checkedId?: string) => void;
+  openCheckInForm: () => void; 
 };
 
 
-export default function ButecoListItem({ buteco, onView, onDelete, onReview, checkInId, onCheckInChange }: Props) {
+export default function ButecoListItem({ buteco, onView, onDelete, onReview, checkInId, onCheckInChange, openCheckInForm }: Props) {
+  const firstCheckIn = buteco.checkIn[0]
+  const hasEvaluated = firstCheckIn?.participants?.some((p) => p.hasEvaluated) ?? false
 
   return (
     <div className="flex items-center justify-between p-4 rounded-lg shadow-sm bg-session dark:bg-dark-session">
@@ -29,7 +31,8 @@ export default function ButecoListItem({ buteco, onView, onDelete, onReview, che
         />
         <div>
           <p className="font-semibold text-lg">{buteco.name}</p>
-          <p className="text-sm text-accent dark:text-dark-accent">Nota: {Number(buteco.rating ?? 0).toFixed(2)}</p>
+          <p className="text-sm font-extrabold text-accent dark:text-dark-accent">
+            Nota: {Number(buteco.rating ?? 0).toFixed(2)}</p>
         </div>
       </div>
 
@@ -38,11 +41,13 @@ export default function ButecoListItem({ buteco, onView, onDelete, onReview, che
         <ButecoActions
           butecoId={buteco.id}
           checkInId={checkInId}
+          status={hasEvaluated}
           onDelete={onDelete}
           onView={onView}
           onReview={onReview}
           onCheckInChange={onCheckInChange}
-        />
+          openCheckInForm={openCheckInForm}
+          />
       </div>
 
       {/* Ações Mobile */}
@@ -50,12 +55,14 @@ export default function ButecoListItem({ buteco, onView, onDelete, onReview, che
         <ButecoActions
           butecoId={buteco.id}
           checkInId={checkInId}
+          status={hasEvaluated}
           isMobile
           onDelete={onDelete}
           onView={onView}
           onReview={onReview}
           onCheckInChange={onCheckInChange}
-        />
+          openCheckInForm={openCheckInForm}
+          />
       </div>
     </div>
   );

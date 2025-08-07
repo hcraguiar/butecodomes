@@ -1,3 +1,4 @@
+
 export type InviteWithUser = {
   id: string;
   token: string;
@@ -49,6 +50,14 @@ export interface Review extends BaseEntity, Ratings {
   checkInId?: string | null
 }
 
+export interface FormReviewType extends Omit<Review, 'rating'> {
+  user: {
+    id: string
+    name: string
+  }
+  createdAt: string
+}
+
 // ------------------
 // MAIN DASHBOARD 
 // ------------------
@@ -77,8 +86,35 @@ export interface Buteco extends BaseEntity, Ratings {
 export interface ButecoListType extends Buteco {
   checkIn: {
     id: string;
+    participants: {
+      hasEvaluated: boolean
+    }[]
   }[]; // check-in do usuário atual
   reviews?: Review[] // review do usuário atual
+}
+
+// ------------------
+// CHECK-IN
+// ------------------
+export interface User {
+  id: string
+  name: string
+}
+
+export interface CheckInParticipant {
+  user: User
+  hasEvaluated: boolean
+}
+
+export interface CheckIn {
+  id: string
+  createdAt: string
+  participants: CheckInParticipant[]
+  review: FormReviewType[]
+}
+
+export interface ButecoWithCheckIns extends Buteco {
+  checkIn: CheckIn[]
 }
 
 // ------------------

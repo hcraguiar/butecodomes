@@ -6,8 +6,12 @@ export async function POST(req: NextRequest) {
   const session = await auth();
   if (!session?.user?.id) return NextResponse.json({ error: 'Não autorizado'}, { status: 401 });
 
+  const isAdmin = session.user.role === "ADMIN";
+
   const body = await req.json();
-  const { butecoId, ratings, checkInId } = body;
+  const { butecoId, ratings, checkInId , userId } = body; 
+
+  const user_id = (userId && isAdmin) ? userId : session.user.id;
 
   if (!butecoId || !ratings) {
     return NextResponse.json({ error:  'Missing fields' }, { status: 400 })
@@ -17,7 +21,7 @@ export async function POST(req: NextRequest) {
     const existing = await prisma.review.findFirst({
       where: {
         buteco_id: butecoId,
-        user_id: session.user.id,
+        user_id
       },
     })
 
@@ -27,7 +31,7 @@ export async function POST(req: NextRequest) {
 
     const review = await prisma.review.create({
       data: {
-        user_id: session.user.id,
+        user_id,
         buteco_id: butecoId,
         ...ratings,
         checkInId,
@@ -50,8 +54,11 @@ export async function PUT(req: NextRequest) {
 
   try {
     const review = await prisma.review.findUnique({ where: { id } })
-    if (!review || review.user_id !== session.user.id)
-      return NextResponse.json({ error: 'Not allowed' }, { status: 403 })
+
+    if (session.user.role !== "ADMIN") {
+      if (!review || review.user_id !== session.user.id)
+        return NextResponse.json({ error: 'Not allowed' }, { status: 403 })
+    }
 
     const updated = await prisma.review.update({
       where: { id },

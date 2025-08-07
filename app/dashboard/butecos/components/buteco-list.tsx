@@ -2,16 +2,18 @@
 
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
-import Input from '../../input';
+import Input from '../../../ui/input';
 import ButecoListItem from './buteco-list-item';
-import Button from '../../button';
+import Button from '../../../ui/button';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { ButecoListType, OpenReviewFormAction, OpenButecoDetailsAction } from '@/app/lib/types';
 import { ButecoCard } from './buteco-card';
 import { useDebounce } from 'use-debounce';
-import EvaluationForm from '../reviews/review-form';
+import EvaluationForm from '../../../ui/dashboard/reviews/review-form';
 import Image from 'next/image';
 import { useModal } from '@/app/context/modal-context';
+import { userAgent } from 'next/server';
+import CheckInFormModal from './checkin-form-modal';
 
 export default function ButecoList() {
   const [butecos, setButecos] = useState<ButecoListType[]>([]);
@@ -22,7 +24,9 @@ export default function ButecoList() {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(false);
+
   const { setModalOpen, setModalContent } = useModal();
+
 
   async function fetchButecos() {
     setLoading(true);
@@ -58,6 +62,36 @@ export default function ButecoList() {
     }
   };
 
+  function handleCheckInFormOpen(butecoId: string) {
+    setModalContent({
+      title: 'Registrar Check-in',
+      content: (
+        <CheckInFormModal
+          butecoId={butecoId}
+          onCancel={() => setModalOpen(false)}
+          onSubmit={async (participantIds, createdAt) => {
+            try {
+              const res = await fetch('/api/checkin', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ butecoId, participantIds, createdAt }),
+              });
+
+              if (!res.ok) throw new Error();
+
+              toast.success('Check-in registrado com sucesso!');
+              // Refetch dados, se necessário
+              setModalOpen(false);
+            } catch (error) {
+              toast.error('Erro ao registrar check-in.');
+            }
+          }}
+        />
+      ),
+    });
+    setModalOpen(true);
+  }
+
   const handleCheckInChange = (butecoId: string, checkedIn: boolean, newCheckInId?: string) => {
     setCheckInMap(prev => ({
       ...prev,
@@ -69,24 +103,28 @@ export default function ButecoList() {
     const buteco = action.buteco
     const updatedCheckInId = checkInMap[buteco.id] ?? buteco.checkIn[0]?.id;
 
+    const userReview = buteco.reviews ? buteco.reviews[0] : undefined;
+
     setModalContent({ 
-      title: `Avalie ${action.buteco.name}`, 
-      content:
+      title: `Avalie ${buteco.name}`, 
+      content:( 
       <>
       <div className="flex justify-center mb-4">
-        <Image src={action.buteco.logo_url} alt='Logo' width={100} height={100} />
+        <Image src={buteco.logo_url} alt='Logo' width={100} height={100} />
       </div>
       <EvaluationForm 
-        buteco={action.buteco}
+        butecoId={buteco.id} 
         checkInId={updatedCheckInId}
+        {...(userReview ? { userReview } : {} )}
         onDone={() => {
           setModalOpen(false);
           fetchButecos();
         }} 
-        /> 
+      />
       </>
+      ),
     });
-    setModalOpen(true);;
+    setModalOpen(true);
   }
 
   useEffect(() => {
@@ -130,6 +168,7 @@ export default function ButecoList() {
               onReview={() => handleReview({ buteco })} 
               checkInId={checkInMap[buteco.id] ?? buteco.checkIn[0]?.id}
               onCheckInChange={(checkedIn, id) => handleCheckInChange(buteco.id, checkedIn, id)}
+              openCheckInForm={() => handleCheckInFormOpen(buteco.id)}
             />
           ))}
         </div>
