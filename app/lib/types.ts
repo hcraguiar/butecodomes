@@ -69,6 +69,7 @@ export interface DashboardData {
   pendingReviews: any[]
   totalReviews: number
   totalCheckIns: number
+  totalVisited: number
   topUsers: any[]
 }
 

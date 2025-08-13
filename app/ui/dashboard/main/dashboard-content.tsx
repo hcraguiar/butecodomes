@@ -84,7 +84,7 @@ export default function DashboardContent() {
     <div className="grid gap-6 xl:grid-cols-3">
       {/* Linha 1: Estatísticas + Pódio */}
       <div className="xl:col-span-2 grid gap-6">
-        <SummaryStats totalReviews={data.totalReviews} totalCheckIns={data.totalCheckIns} />
+        <SummaryStats totalReviews={data.totalReviews} totalCheckIns={data.totalCheckIns} totalVisited={data.totalVisited} />
         <DashboardPodium butecos={data.topButecos} />
       </div>
 

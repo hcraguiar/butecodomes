@@ -59,7 +59,18 @@ export async function GET() {
 
       prisma.$transaction([
         prisma.review.count(),
-        prisma.checkIn.count(),
+        prisma.checkInParticipant.count(),
+        prisma.buteco.count({
+          where: {
+            checkIn: {
+              some: {
+                id: {
+                  not: undefined,
+                }
+              }
+            }
+          }
+        })
       ]),
 
       prisma.user.findMany({
@@ -82,6 +93,7 @@ export async function GET() {
       pendingReviews,
       totalReviews: stats[0],
       totalCheckIns: stats[1],
+      totalVisited: stats[2],
       topUsers
     })
   } catch (error) {

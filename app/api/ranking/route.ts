@@ -5,14 +5,19 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const page = parseInt(searchParams.get('page') || '1');
-  const limit = parseInt(searchParams.get('limit') || '10');
+  // const limit = parseInt(searchParams.get('limit') || '10');
+  const limit = 10;
   const skip = (page - 1) * limit;
 
   try {
     const total = await prisma.buteco.count();
 
     const butecos = await prisma.buteco.findMany({
-      orderBy: { rating: 'desc' },
+      orderBy: [
+        { rating: 'desc' },
+        { reviews: { _count: 'desc'} },
+        { service: 'desc' },
+      ],
       skip,
       take: limit,
       select: {
