@@ -20,7 +20,7 @@ export default function ButecoListItem({ buteco, onView, onDelete, onReview, che
   const hasEvaluated = firstCheckIn?.participants?.some((p) => p.hasEvaluated) ?? false
 
   return (
-    <div className="flex items-center justify-between p-4 rounded-lg shadow-sm bg-session dark:bg-dark-session">
+    <div className="flex items-center justify-between p-4 rounded-lg shadow-sm bg-session">
       <div className="flex items-center gap-4">
         <Image
           src={buteco.logo_url || '/logo.png'}
@@ -31,8 +31,12 @@ export default function ButecoListItem({ buteco, onView, onDelete, onReview, che
         />
         <div>
           <p className="font-semibold text-lg">{buteco.name}</p>
-          <p className="text-sm font-extrabold text-accent dark:text-dark-accent">
-            Nota: {Number(buteco.rating ?? 0).toFixed(2)}</p>
+          <p className="text-sm font-extrabold text-muted">
+            Nota: {Number(buteco.rating ?? 0).toFixed(2)}
+          </p>
+          <p className="text-sm text-muted">
+            {buteco._count.reviews} {buteco._count.reviews === 1 ? 'avaliação' : 'avaliações'}
+            </p>
         </div>
       </div>
 

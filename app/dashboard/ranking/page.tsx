@@ -63,7 +63,7 @@ export default function RankingPage() {
       <p className="text-4xl font-bold mb-2">{place}</p>
       <p className="text-sm md:text-lg font-bold mb-2">{buteco.name}</p>
       <p className="text-4xl mb-2"><strong>{Number(buteco.rating).toFixed(1)}</strong></p>
-      <div className="text-xs text-muted dark:text-dark-muted space-y-1 text-center mt-2">
+      <div className="text-xs space-y-1 text-center mt-2">
         <p>🍽️ Comida: {Number(buteco.food).toFixed(1)}</p>
         <p>🍹 Bebida: {Number(buteco.drink).toFixed(1)}</p>
         <p>🛎️ Serviço: {Number(buteco.service).toFixed(1)}</p>
@@ -124,9 +124,9 @@ export default function RankingPage() {
               <div>
                 <div className="flex justify-between font-semibold">
                   <span>{buteco.name}</span>
-                  <span className='text-muted dark:text-dark-muted'>Nota: {Number(buteco.rating).toFixed(1)}</span>
+                  <span className='text-muted'>Nota: {Number(buteco.rating).toFixed(1)}</span>
                 </div>
-                <div className="text-sm text-muted dark:text-dark-muted">
+                <div className="text-sm text-muted">
                   🍔 {Number(buteco.food).toFixed(1)} | 🍻 {Number(buteco.drink).toFixed(1)} | 🛎 {Number(buteco.service).toFixed(1)} | 🎶 {Number(buteco.ambiance).toFixed(1)} | 💸 {Number(buteco.price).toFixed(1)}
                 </div>
               </div>

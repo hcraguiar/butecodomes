@@ -92,7 +92,7 @@ export default function ButecoForm() {
   const butecoPreviewData = {
     id: "",
     name: watch('name'),
-    address: "", 
+    address: watch('address'), 
     image_url: imagePreview,
     logo_url: logoPreview,
     food: 5,
@@ -182,7 +182,7 @@ export default function ButecoForm() {
             }} 
             label="Clique ou arraste a imagem do bar" 
           />
-          <span className="flex justify-end text-xs text-muted-foreground dark:text-dark-muted-foreground mb-2">Opcional</span>
+          <span className="flex justify-end text-xs text-muted mb-2">Opcional</span>
           </>
         )}
         {image_url && (
@@ -217,7 +217,7 @@ export default function ButecoForm() {
             }} 
             label="Clique ou arraste a logo do bar" 
             />
-          <span className="flex justify-end text-xs text-muted-foreground dark:text-dark-muted-foreground mb-2">Opcional</span>
+          <span className="flex justify-end text-xs text-muted mb-2">Opcional</span>
           </>
         )}
         {logo_url && (
@@ -254,7 +254,7 @@ export default function ButecoForm() {
       </form>
 
       {/* Card Preview (Aparece apenas em md+) */}
-      <div className="hidden md:flex justify-center items-center">
+      <div className="hidden md:block justify-center items-center">
         <ButecoCard {...butecoPreviewData} />    
       </div>
     </div>

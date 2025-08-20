@@ -42,7 +42,7 @@ export default function RootLayout({
 
   return (
     <html lang="pt-br" className={`${darkMode ? 'dark' : ''} font-primary ${inter.variable} ${pacifico.variable} ${playfair.variable}`}>
-      <body className='flex flex-col min-h-screen bg-background dark:bg-dark-background text-foreground dark:text-dark-foreground font-secondary transition-all relative'>
+      <body className='flex flex-col min-h-screen bg-background text-foreground font-secondary transition-all relative'>
         {/* Botão de alternância de tema */}
         <div className={`absolute top-4 right-4 z-10 md:top-6 md:right-6`}>
           <Button onClick={() => setDarkMode(!darkMode)} variant="toggle" size='icon'>

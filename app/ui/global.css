@@ -16,3 +16,32 @@ input[type='number']::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+
+/* Colors Palette
+/* Light mode */
+:root {
+  --background: 245 223 199;
+  --session: 235 216 189;
+  --primary: 211 140 60;
+  --secondary: 160 110 50;
+  --accent: 0 100 148;
+
+  --foreground-heading: 0 0 0;
+  --foreground: 40 30 20;
+  --muted: 120 110 100;
+  --foreground-on-accent: 255 255 255; 
+}
+
+/* Dark mode */
+.dark {
+  --background: 30 20 10;
+  --session: 45 35 25;
+  --primary: 255 170 80;
+  --secondary: 200 140 70;
+  --accent: 0 100 148;
+
+  --foreground-heading: 255 250 240;
+  --foreground: 220 210 200;
+  --muted: 150 140 130;
+  --foreground-on-accent: 0 0 0;
+}

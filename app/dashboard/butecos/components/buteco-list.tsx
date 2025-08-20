@@ -154,9 +154,9 @@ export default function ButecoList() {
 
       {/* Lista */}
       {loading ? (
-        <p className="text-muted dark:text-dark-muted">Carregando...</p>
+        <p className="text-muted">Carregando...</p>
       ) : butecos.length === 0 ? (
-        <p className="text-center py-8 text-muted dark:text-dark-muted">Nenhum buteco encontrado.</p>
+        <p className="text-center py-8 text-muted">Nenhum buteco encontrado.</p>
       ) : (
         <div className="space-y-2">
           {butecos.map((buteco) => (

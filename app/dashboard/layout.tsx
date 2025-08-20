@@ -8,7 +8,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   return (
     <div className={`flex min-h-screen`}>
       {/* Sidebar (desktop only) */}
-      <aside className="hidden md:flex md:flex-col w-64 bg-background dark:bg-dark-background text-foreground dark:text-dark-foreground px-4 py-6">
+      <aside className="hidden md:flex md:flex-col w-64 bg-background text-foreground px-4 py-6">
         <Logo />
         <nav className="flex flex-col gap-4">
           <NavLinks />
@@ -21,7 +21,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         <Topbar />
 
         {/* Content */}
-        <main className="flex-1 p-4 bg-background dark:bg-dark-background text-foreground dark:text-dark-foreground">
+        <main className="flex-1 p-4 bg-background text-foreground">
           <div className="container max-w-screen-xl mx-auto mb-20 md:mb-auto">
             <ModalProvider>
               {children}
@@ -30,7 +30,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         </main>
 
         {/* Mobile Navbar */}
-        <nav className="md:hidden fixed bottom-0 left-0 right-0 flex justify-around items-center py-2 border-t border-muted dark:border-dark-muted bg-background dark:bg-dark-background">
+        <nav className="md:hidden fixed bottom-0 left-0 right-0 flex justify-around items-center py-2 border-t border-muted bg-background">
           <NavLinks />
         </nav>
       </div>

@@ -47,7 +47,7 @@ export default function UserDropdown({ user }: UserDropdownProps) {
       </Button>
 
       {open && (
-        <div className="absolute right-0 mt-2 w-64 bg-white dark:text-foreground border border-muted rounded-md shadow-lg z-50 py-2 animate-fade-in">
+        <div className="absolute right-0 mt-2 w-64 bg-session border border-muted rounded-md shadow-lg z-50 py-2 animate-fade-in">
           <div className="px-4 py-2">
             <p className="text-sm font-semibold text-foreground">{user.name}</p>
             <p className="text-xs text-muted truncate">{user.email}</p>
@@ -67,7 +67,7 @@ export default function UserDropdown({ user }: UserDropdownProps) {
             >
             <QrCodeIcon className="w-5 h-5 mr-2" /> Convites
           </Link>
-          <div className="border-t border-muted dark:border-dark-muted my-1" />
+          <div className="border-t border-muted my-1" />
           <SignOutButton />
           </div>
         </div>

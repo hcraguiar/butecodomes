@@ -21,20 +21,19 @@ type Props = {
 export default function PendingReviews({ pendentes, action }: Props) {
   if (!pendentes || pendentes.length === 0) {
     return (
-      <div className="p-4 border rounded-x1 text-muted dark:text-dark-muted">
+      <div className="p-4 bg-session rounded-2xl shadow rounded-x1 text-muted">
         Nenhuma avaliação pendente.
       </div>
     )
   }
   
   return (
-    <div className="bg-session dark:bg-dark-session rounded-2xl shadow p-4">
+    <div className="bg-session rounded-2xl shadow p-4">
       <h2 className="text-lg font-semibold mb-4">Avaliações Pendentes</h2>
       <ul className="space-y-3">
         {pendentes.map((p, i) => {
           const buteco = p.checkIn.buteco
           const checkInId = p.checkInId
-          console.log('[DEBUG] Map Pendings:', buteco)
 
           return (
             <li key={i} className="flex items-center gap-4">

@@ -76,7 +76,8 @@ export async function GET(req: NextRequest) {
               service: true,
               price: true,
             }
-          }
+          },
+          _count : { select: { reviews: true }}
         },
       }),
       prisma.buteco.count({

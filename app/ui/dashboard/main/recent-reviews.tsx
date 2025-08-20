@@ -12,7 +12,7 @@ type Props = {
 
 export default function RecentReviews({ reviews }: Props) {
   return (
-    <div className="bg-session dark:bg-dark-session rounded-2xl shadow p-4">
+    <div className="bg-session rounded-2xl shadow p-4">
       <h2 className="text-lg font-semibold mb-4">Últimas Avaliações</h2>
       <ul className="space-y-4">
         {reviews.map((r) => (

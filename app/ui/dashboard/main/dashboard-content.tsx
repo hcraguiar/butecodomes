@@ -10,7 +10,6 @@ import { DashboardData } from "@/app/lib/types";
 import { useModal } from "@/app/context/modal-context";
 import Image from "next/image";
 import EvaluationForm from "../reviews/review-form";
-import { useSession } from "next-auth/react";
 
 export default function DashboardContent() {
   const [data, setData] = useState<DashboardData | null>(null);
@@ -76,9 +75,9 @@ export default function DashboardContent() {
     fetchDashboardData()
   }, [])
 
-  if (loading) return <p className="text-muted dark:text-dark-muted">Carregando dashboard...</p>
+  if (loading) return <p className="text-muted">Carregando dashboard...</p>
   if (!data) return 
-  // <p className="text-muted dark:text-dark-muted">Erro ao carregar dashboard.</p>
+    // <p className="text-muted">Erro ao carregar dashboard.</p>
 
   return (
     <div className="grid gap-6 xl:grid-cols-3">

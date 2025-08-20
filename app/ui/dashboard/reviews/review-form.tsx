@@ -125,7 +125,7 @@ export default function EvaluationForm({ butecoId, checkInId, userReview, userId
           type="text" 
           value={mean} 
           disabled 
-          className='border-0 px-3 py-1 w-full bg-gray-100 text-center font-semibold text-yellow-500 text-4xl' />
+          className='border-0 px-3 py-1 w-full bg-gray-100 text-center font-semibold text-yellow-500 text-4xl rounded-md' />
       </div>
 
       <Button

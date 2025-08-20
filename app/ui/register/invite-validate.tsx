@@ -30,14 +30,14 @@ function withInviteValidation(WrappedComponent: React.ComponentType<Props>) {
     }, [searchParams, router]);
 
     if (inviteValid === null) {
-      return <div className="min-h-screen flex items-center justify-center"><p className="text-sm text-center text-muted dark:text-dark-muted">Validando convite...</p></div>;
+      return <div className="min-h-screen flex items-center justify-center"><p className="text-sm text-center text-muted">Validando convite...</p></div>;
     }
 
     if (!inviteValid) {
       return (
         <div className="min-h-screen flex flex-col items-center justify-center">
           <h2 className="text-lg font-semibold text-center text-red-600">Convite Inválido</h2>
-          <p className="text-sm text-center text-muted dark:text-dark-muted">Solicite um novo convite.</p>
+          <p className="text-sm text-center text-muted">Solicite um novo convite.</p>
           {/* Opcional: Botão para voltar à página inicial */}
           <Button size='icon' variant='outline' className='rounded-full mt-6'>
             <Link href='/' >

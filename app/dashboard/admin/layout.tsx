@@ -18,9 +18,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   return (
     <div className="flex h-screen flex-col md:flex-row">
       {/* Mobile Topbar */}
-      <div className="md:hidden flex justify-between items-center p-4 border-b bg-session dark:bg-dark-session">
+      <div className="md:hidden flex justify-between items-center p-4 border-b bg-session">
         <h2 className="text-lg font-semibold">Painel Admin</h2>
-        <button onClick={() => setOpen(!open)} className="p-2 rounded hover:bg-secondary dark:hover:bg-dark-secondary">
+        <button onClick={() => setOpen(!open)} className="p-2 rounded hover:bg-secondary">
           {open ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
         </button>
       </div>
@@ -29,7 +29,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       <aside
         className={`${
           open ? 'block' : 'hidden'
-        } md:block w-full md:w-64 bg-session dark:bg-dark-session p-4 space-y-4 absolute md:static`}
+        } md:block w-full md:w-64 bg-session p-4 space-y-4 absolute md:static`}
       >
         <nav className="flex flex-col space-y-2">
           {links.map((link) => (
@@ -37,8 +37,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               key={link.href}
               href={link.href}
               onClick={() => setOpen(false)} // fecha o menu no mobile
-              className={`px-3 py-2 rounded hover:bg-secondary dark:hover:bg-dark-secondary ${
-                pathname === link.href ? 'bg-accent dark:bg-dark-accent font-semibold' : ''
+              className={`px-3 py-2 rounded hover:bg-secondary ${
+                pathname === link.href ? 'bg-accent font-semibold' : ''
               }`}
             >
               {link.label}
@@ -48,7 +48,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       </aside>
 
       {/* Conteúdo */}
-      <main className="flex-1 p-6 overflow-y-auto bg-background dark:bg-dark-background">
+      <main className="flex-1 p-6 overflow-y-auto bg-background">
         {children}
       </main>
     </div>

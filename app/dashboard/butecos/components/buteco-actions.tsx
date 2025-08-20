@@ -58,7 +58,7 @@ export default function ButecoActions({
         </Button>
 
         {open && (
-          <div className="absolute right-0 mt-2 w-48 bg-white dark:text-foreground border border-muted rounded-md shadow-lg z-50 py-2 animate-fade-in">
+          <div className="absolute right-0 mt-2 w-48 bg-session text-foreground border border-muted rounded-md shadow-lg z-50 py-2 animate-fade-in">
             <CheckInButton
               butecoId={butecoId}
               checkInId={checkInId}

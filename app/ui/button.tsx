@@ -7,11 +7,11 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 export default function Button({ children, className, variant = 'primary', size = 'default', ...rest }: ButtonProps) {
-  const baseStyles = "font-semibold shadow-md transition font-secondary hover:bg-secondary dark:hover:bg-dark-secondary";
+  const baseStyles = "font-semibold shadow-md transition font-secondary hover:bg-secondary";
 
   const variants: Record<string, string> = {
-    primary: 'bg-primary dark:bg-dark-primary rounded-lg text-foreground',
-    toggle: 'bg-primary dark:bg-dark-primary text-yellow-300 dark:text-yellow-800 rounded-full',
+    primary: 'bg-primary rounded-lg text-foreground-on-accent',
+    toggle: 'bg-primary text-yellow-300 dark:text-yellow-800 rounded-full',
     outline: 'border border-input bg-transparent rounded-lg',
     ghost: 'bg-transparent rounded-lg',
     topbar: 'bg-trasparent rounded-full',

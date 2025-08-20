@@ -13,27 +13,19 @@ const config: Config = {
         '13': 'repeat(13, minmax(0, 1fr))',
       },
       colors: {
-        // Paleta clara (modo light)
-        background: '#F5DFC7',
-        session: '#EDD8C1',
-        primary: '#D38C3C',
-        secondary: '#9FE486',
-        accent: '#69DD82',
-        
-        
-        // Dark mode (usado com classes 'dark')
-        'dark-background': '#130F0A',
-        'dark-session': '#1A1712',
-        'dark-primary': '#DBC19E',       
-        'dark-secondary': '#1E5943',     
-        'dark-accent': '#56A1C0',        
-        
+        // Paleta de cores (Cores definidas em '/ui/global.css')
+        background: "rgb(var(--background) / <alpha-value>)",
+        session: "rgb(var(--session) / <alpha-value>)",
+        primary: "rgb(var(--primary) / <alpha-value>)",
+        secondary: "rgb(var(--secondary) / <alpha-value>)",
+        accent: "rgb(var(--accent) / <alpha-value>)",
         
         // Texto padrão
-        foreground: "#080502",
-        muted: "#63605C",
-        'dark-foreground': '#F6EFE7',
-        'dark-muted': '#9E9992',
+        'foreground-heading': "rgb(var(--foreground-heading) / <alpha-value>)",
+        foreground: "rgb(var(--foreground) / <alpha-value>)",
+        muted: "rgb(var(--muted) / <alpha-value>)",
+        'foreground-on-accent': "rgb(var(--foreground-on-accent) / <alpha-value>)",
+        
       },
       fontFamily: {
         primary: ['var(--font-pacifico)', 'cursive'],
