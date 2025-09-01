@@ -2,11 +2,13 @@ name: Prisma Migrate Deploy
 
 on:
   push:
+    paths:
+      - prisma/migrations/**
     branches:
       - main   # ou o branch que a Vercel usa para deploy
 
 jobs:
-  migrate:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
