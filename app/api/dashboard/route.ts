@@ -13,7 +13,7 @@ export async function GET() {
   const userId = session.user.id;
 
   try {
-    const [topButecos, recentReviews, pendingReviews, stats, topUsers] = await Promise.all([
+    const [topButecos, recentReviews, pendingReviews, stats, topUsers, nextSchedule] = await Promise.all([
       prisma.buteco.findMany({
         take: 3,
         orderBy: { rating: 'desc' },
@@ -83,7 +83,22 @@ export async function GET() {
           image: true,
           _count: { select: { reviews: true } }
         }
-      })
+      }),
+
+      prisma.calendar.findMany({
+        orderBy: { date: 'desc' },
+        take: 1,
+        include: {
+          buteco: {
+            select: {
+              id: true,
+              name: true,
+              logo_url: true,
+              image_url: true,
+            }
+          }
+        }
+      }),
     ])
 
     return NextResponse.json({
@@ -94,7 +109,8 @@ export async function GET() {
       totalReviews: stats[0],
       totalCheckIns: stats[1],
       totalVisited: stats[2],
-      topUsers
+      topUsers,
+      nextSchedule,
     })
   } catch (error) {
     console.error(error)

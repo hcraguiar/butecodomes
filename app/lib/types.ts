@@ -71,7 +71,13 @@ export interface DashboardData {
   totalCheckIns: number
   totalVisited: number
   topUsers: any[]
+  nextSchedule: any[]
 }
+
+// ------------------
+// USER
+// ------------------
+
 
 // ------------------
 // BUTECO
@@ -92,6 +98,9 @@ export interface ButecoListType extends Buteco {
     }[]
   }[]; // check-in do usuário atual
   reviews?: Review[] // review do usuário atual
+  _count: {
+    reviews: number
+  }
 }
 
 // ------------------
@@ -116,6 +125,32 @@ export interface CheckIn {
 
 export interface ButecoWithCheckIns extends Buteco {
   checkIn: CheckIn[]
+}
+
+// ------------------
+// CALENDAR
+// ------------------
+export interface Suggested extends Pick<Buteco, 'id' | 'name' | 'logo_url' | 'image_url'> {
+
+}
+
+export interface Scheduled extends BaseEntity {
+  date: string
+  buteco: Suggested
+}
+
+
+export interface Visited extends Pick<Buteco, 'id' | 'name' | 'logo_url'> {
+  checkIn: {
+    createdAt: string
+    participants: {
+      user: {
+        id: string
+        name: string
+        image: string
+      }
+    }[]
+  }[] 
 }
 
 // ------------------

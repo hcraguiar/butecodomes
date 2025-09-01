@@ -2,7 +2,7 @@
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
-  variant?: 'primary' | 'toggle' | 'outline' | 'ghost' | 'topbar' | 'disabled',
+  variant?: 'primary' | 'accent' | 'toggle' | 'outline' | 'ghost' | 'topbar' | 'disabled',
   size?: 'default' | 'sm' | 'lg' | 'icon',
 }
 
@@ -11,6 +11,7 @@ export default function Button({ children, className, variant = 'primary', size 
 
   const variants: Record<string, string> = {
     primary: 'bg-primary rounded-lg text-foreground-on-accent',
+    accent: 'bg-accent rounded-lg text-foreground-on-accent',
     toggle: 'bg-primary text-yellow-300 dark:text-yellow-800 rounded-full',
     outline: 'border border-input bg-transparent rounded-lg',
     ghost: 'bg-transparent rounded-lg',

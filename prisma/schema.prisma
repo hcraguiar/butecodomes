@@ -83,24 +83,25 @@ model VerificationToken {
 }
 
 model Buteco {
-  id        String     @id @default(uuid())
-  name      String
-  address   String
-  latitude  Float
-  longitude Float
-  image_url String
-  logo_url  String
-  rating    Float      @default(0)
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @default(now()) @updatedAt
-  ambiance  Float      @default(0)
-  drink     Float      @default(0)
-  food      Float      @default(0)
-  price     Float      @default(0)
-  service   Float      @default(0)
-  calendar  Calendar[]
-  checkIn   CheckIn[]
-  reviews   Review[]
+  id              String     @id @default(uuid())
+  name            String
+  address         String
+  latitude        Float
+  longitude       Float
+  image_url       String
+  logo_url        String
+  rating          Float      @default(0)
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @default(now()) @updatedAt
+  ambiance        Float      @default(0)
+  drink           Float      @default(0)
+  food            Float      @default(0)
+  price           Float      @default(0)
+  service         Float      @default(0)
+  firstCheckInAt  DateTime?
+  calendar        Calendar[]
+  checkIn         CheckIn[]
+  reviews         Review[]
 }
 
 model CheckIn {
@@ -149,6 +150,9 @@ model Review {
 model Calendar {
   id        String   @id @default(uuid())
   date      DateTime
-  buteco_id String
-  buteco    Buteco   @relation(fields: [buteco_id], references: [id])
+  buteco_id String?
+  buteco    Buteco?   @relation(fields: [buteco_id], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 }

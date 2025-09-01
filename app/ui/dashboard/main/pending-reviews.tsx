@@ -20,15 +20,11 @@ type Props = {
 
 export default function PendingReviews({ pendentes, action }: Props) {
   if (!pendentes || pendentes.length === 0) {
-    return (
-      <div className="p-4 bg-session rounded-2xl shadow rounded-x1 text-muted">
-        Nenhuma avaliação pendente.
-      </div>
-    )
+    return 
   }
   
   return (
-    <div className="bg-session rounded-2xl shadow p-4">
+    <div className="bg-session-accent rounded-2xl shadow p-4">
       <h2 className="text-lg font-semibold mb-4">Avaliações Pendentes</h2>
       <ul className="space-y-3">
         {pendentes.map((p, i) => {
@@ -44,7 +40,7 @@ export default function PendingReviews({ pendentes, action }: Props) {
                 </p>
                 <p className="text-xs">Check-in em {formatDateToLocal(p.createdAt)}</p>
               </div>
-              <Button size="sm" onClick={() => action(buteco.id, checkInId)}>Avaliar</Button>
+              <Button variant="accent" size="sm" onClick={() => action(buteco.id, checkInId)}>Avaliar</Button>
             </li>
           )
         })}

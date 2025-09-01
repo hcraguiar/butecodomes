@@ -16,6 +16,7 @@ const config: Config = {
         // Paleta de cores (Cores definidas em '/ui/global.css')
         background: "rgb(var(--background) / <alpha-value>)",
         session: "rgb(var(--session) / <alpha-value>)",
+        'session-accent': "rgb(var(--session-accent) / <alpha-value>)",
         primary: "rgb(var(--primary) / <alpha-value>)",
         secondary: "rgb(var(--secondary) / <alpha-value>)",
         accent: "rgb(var(--accent) / <alpha-value>)",

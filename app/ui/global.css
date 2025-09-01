@@ -22,6 +22,7 @@ input[type='number']::-webkit-outer-spin-button {
 :root {
   --background: 245 223 199;
   --session: 235 216 189;
+  --session-accent: 237 189 76;
   --primary: 211 140 60;
   --secondary: 160 110 50;
   --accent: 0 100 148;
@@ -36,6 +37,7 @@ input[type='number']::-webkit-outer-spin-button {
 .dark {
   --background: 30 20 10;
   --session: 45 35 25;
+  --session-accent: 72 130 134; 
   --primary: 255 170 80;
   --secondary: 200 140 70;
   --accent: 0 100 148;

@@ -10,6 +10,7 @@ import { DashboardData } from "@/app/lib/types";
 import { useModal } from "@/app/context/modal-context";
 import Image from "next/image";
 import EvaluationForm from "../reviews/review-form";
+import NextSchedule from "./next-shedule";
 
 export default function DashboardContent() {
   const [data, setData] = useState<DashboardData | null>(null);
@@ -80,25 +81,31 @@ export default function DashboardContent() {
     // <p className="text-muted">Erro ao carregar dashboard.</p>
 
   return (
-    <div className="grid gap-6 xl:grid-cols-3">
-      {/* Linha 1: Estatísticas + Pódio */}
-      <div className="xl:col-span-2 grid gap-6">
-        <SummaryStats totalReviews={data.totalReviews} totalCheckIns={data.totalCheckIns} totalVisited={data.totalVisited} />
-        <DashboardPodium butecos={data.topButecos} />
-      </div>
-
-      {/* Coluna lateral: Top usuários */}
-      <div className="xl:col-span-1">
-        <TopUsers users={data.topUsers} />
-      </div>
-
-      {/* Linha 2: Avaliações recentes + pendentes */}
-      <div className="xl:col-span-2 grid gap-6">
-        <RecentReviews reviews={data.recentReviews} />
+    <div className="grid gap-4 xl:grid-cols-3">
+      {/* Destaques: Avaliações pendentes */}
+      <div className="xl:col-span-3">
         <PendingReviews 
           pendentes={data.pendingReviews} 
           action={(butecoId, checkInId) => handleReview(butecoId, checkInId)}
         />
+      </div>
+      {/* Linha 1: Estatísticas + Pódio */}
+      <div className="xl:col-span-2 grid gap-4">
+        <SummaryStats totalReviews={data.totalReviews} totalCheckIns={data.totalCheckIns} totalVisited={data.totalVisited} />
+        <DashboardPodium butecos={data.topButecos} />
+      </div>
+
+      {/* Coluna lateral: Próximos encontros */}
+      <div className="xl:col-span-1">
+        <NextSchedule scheduled={data.nextSchedule} />
+      </div>
+
+      {/* Linha 2: Avaliações recentes */}
+      <div className="xl:col-span-2 grid gap-4">
+        <RecentReviews reviews={data.recentReviews} />
+      </div>
+      <div className="xl:col-span-1">
+        <TopUsers users={data.topUsers} />
       </div>
     </div>
   )

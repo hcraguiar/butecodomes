@@ -1,6 +1,7 @@
 import Button from "@/app/ui/button"
-import ButecoList from "@/app/dashboard/butecos/components/buteco-list";
 import Link from "next/link";
+import ButecoListWrapper from "./components/ButecoListWrapper";
+import { Suspense } from "react";
 
 // app/batecos/page.tsx
 export default function ButecosPage() {
@@ -14,7 +15,9 @@ export default function ButecosPage() {
           </Button>
         </Link>
       </div>
-        <ButecoList />
+        <Suspense fallback={<p className="text-sm text-muted">Carregando...</p>}>
+          <ButecoListWrapper />
+        </Suspense>
     </div>
   );
 }

@@ -12,10 +12,14 @@ import { useDebounce } from 'use-debounce';
 import EvaluationForm from '../../../ui/dashboard/reviews/review-form';
 import Image from 'next/image';
 import { useModal } from '@/app/context/modal-context';
-import { userAgent } from 'next/server';
 import CheckInFormModal from './checkin-form-modal';
+import { useSearchParams } from 'next/navigation';
 
-export default function ButecoList() {
+type Props = {
+  query?: string
+}
+
+export default function ButecoList({ query }: Props) {
   const [butecos, setButecos] = useState<ButecoListType[]>([]);
   const [checkInMap, setCheckInMap] = useState<Record<string, string | undefined>>({});
   const [search, setSearch] = useState('');
@@ -26,7 +30,6 @@ export default function ButecoList() {
   const [loading, setLoading] = useState(false);
 
   const { setModalOpen, setModalContent } = useModal();
-
 
   async function fetchButecos() {
     setLoading(true);
@@ -130,6 +133,12 @@ export default function ButecoList() {
   useEffect(() => {
     fetchButecos();
   }, [page, orderBy, debouncedSearch]);
+
+  useEffect(() => {
+    if (query) {
+      setSearch(query)
+    }
+  }, [query])
 
   return (
     <div className="space-y-4">
