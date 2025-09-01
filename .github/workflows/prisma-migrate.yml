@@ -1,0 +1,27 @@
+name: Prisma Migrate Deploy
+
+on:
+  push:
+    branches:
+      - main   # ou o branch que a Vercel usa para deploy
+
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Instalar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Instalar dependências
+        run: npm install
+
+      - name: Rodar Prisma Migrate Deploy
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: npx prisma migrate deploy
