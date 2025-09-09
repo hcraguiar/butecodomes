@@ -10,11 +10,20 @@ export async function GET(req: NextRequest) {
 
   try {
     const now = new Date();
+    const startOfDay = new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate(),
+      0,
+      0,
+      0,
+      0,
+    );
 
     const [scheduled, suggested] = await prisma.$transaction([
       // 1) Próximos encontros
       prisma.calendar.findMany({
-        where: { date: { gte: now } },
+        where: { date: { gte: startOfDay } },
         orderBy: { date: "asc" },
         select: {
           id: true,
@@ -94,18 +103,33 @@ export async function PUT(req: NextRequest) {
       return NextResponse.json({ error: "Campos obrigatórios faltando"}, { status: 400 })
     }
 
-    const update = await prisma.calendar.update({
-      where: {
-        id,
-      },
-      data: {
-        buteco_id,
-        date: new Date(date),
-      },
-    })
+    if (!buteco_id) {
+      const update = await prisma.calendar.update({
+        where: {
+          id,
+        },
+        data: {
+          date: new Date(date),
+        },
+      })
 
-    return NextResponse.json(update, { status: 201 })
+      return NextResponse.json(update, { status: 201 })
+    } else {
+      const update = await prisma.calendar.update({
+        where: {
+          id,
+        },
+        data: {
+          buteco_id,
+          date: new Date(date),
+        },
+      })
+
+      return NextResponse.json(update, { status: 201 })
+    }
+
   } catch (err) {
+    console.error('[CALENDAR API UPDATE] ', err)
     return NextResponse.json({ error: "Erro ao criar agendamento" }, { status: 500 })
   }
 }
@@ -115,11 +139,11 @@ export async function DELETE(req: NextRequest) {
   if (!session?.user?.id) {
     return NextResponse.json({ error: "Não autorizado" }, { status: 401 })
   }
-
+  
   try {
     const body = await req.json()
     const { id } = body
-
+    
     if (!id ) {
       return NextResponse.json({ error: "Campos obrigatórios faltando"}, { status: 400 })
     }
@@ -127,9 +151,10 @@ export async function DELETE(req: NextRequest) {
     const update = await prisma.calendar.delete({
       where: { id },
     })
-
+    
     return NextResponse.json({ success: true }, { status: 200 })
   } catch (err) {
+    console.error('[CALENDAR API DELETE] ', err)
     return NextResponse.json({ error: "Erro ao criar agendamento" }, { status: 500 })
   }
 }

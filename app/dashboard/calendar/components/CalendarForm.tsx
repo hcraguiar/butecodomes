@@ -57,8 +57,10 @@ export default function CalendarForm({ select, data, onDone }: Props) {
         headers: { 'Content-type': 'application/json' },
         body: JSON.stringify(body),
       }).then(async (res) => {
-        if (!res.ok) throw new Error('Erro ao salvar avaliação')
         onDone?.()
+        if (!res.ok) {
+          throw new Error('Erro ao salvar avaliação')
+        }
       }),
       {
         loading: 'Salvando...',
