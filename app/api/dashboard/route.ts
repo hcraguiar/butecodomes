@@ -12,6 +12,9 @@ export async function GET() {
 
   const userId = session.user.id;
 
+  const now = new Date()
+  const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0, 0)
+
   try {
     const [topButecos, recentReviews, pendingReviews, stats, topUsers, nextSchedule] = await Promise.all([
       prisma.buteco.findMany({
@@ -86,7 +89,8 @@ export async function GET() {
       }),
 
       prisma.calendar.findMany({
-        orderBy: { date: 'desc' },
+        where: { date: { gte: startOfDay }},
+        orderBy: { date: 'asc' },
         take: 1,
         include: {
           buteco: {

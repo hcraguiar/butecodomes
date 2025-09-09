@@ -24,7 +24,8 @@ export default function NextSchedule({ scheduled }: Props) {
   const month = date.toLocaleString("pt-BR", { month: 'long' })
 
   const now = new Date()
-  if (now > date) return
+  const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0, 0)
+  if (date < startOfDay) return
 
   const backgroundImageUrl = data.buteco?.image_url ?? '/bar-image.png'
   
