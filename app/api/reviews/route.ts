@@ -2,6 +2,43 @@ import { auth } from "@/auth";
 import { prisma } from "@/prisma/prisma";
 import { NextRequest, NextResponse } from "next/server";
 
+export async function GET() {
+  const session = await auth();
+  
+  // if (!session?.user) {
+  //   return NextResponse.json({ error:  'Unauthorized' }, { status: 401 })
+  // }
+
+  try {
+    const reviews = await prisma.review.findMany({
+      select: {
+        user: {
+          select: {
+            name: true,
+          },
+        },
+        buteco: {
+          select: {
+            name: true,
+          },
+        },
+        food: true,
+        drink: true,
+        service: true,
+        ambiance: true,
+        price: true,
+        rating: true,
+        updatedAt: true,
+      }
+    })
+
+    return NextResponse.json(reviews)
+  } catch (error) {
+    console.error(error)
+    return NextResponse.json({ error: 'Failed to load reviews data' }, { status: 500 })
+  }
+}
+
 export async function POST(req: NextRequest) {
   const session = await auth();
   if (!session?.user?.id) return NextResponse.json({ error: 'Não autorizado'}, { status: 401 });

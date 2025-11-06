@@ -23,7 +23,7 @@ const links = [
     href: '/dashboard/reviews',
     icon: StarIcon,
   },
-  { name: 'Comunidade', href: '/dashboard/community', icon: UserGroupIcon },
+  // { name: 'Comunidade', href: '/dashboard/community', icon: UserGroupIcon },
   { name: 'Agenda', href: '/dashboard/calendar', icon: CalendarIcon },
   { name: 'Ranking', href: '/dashboard/ranking', icon: TrophyIcon },
 ];

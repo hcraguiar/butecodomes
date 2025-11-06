@@ -78,6 +78,25 @@ export interface DashboardData {
 // USER
 // ------------------
 
+// ------------------
+// Reviews
+// ------------------
+
+export interface Review {
+  user: {
+    name: string
+  },
+  buteco: {
+    name: string
+  },
+  food: number,
+  drink: number,
+  service: number,
+  ambiance: number,
+  price: number,
+  rating: number,
+  updatedAt: string,
+}
 
 // ------------------
 // BUTECO
