@@ -2,8 +2,7 @@
 
 import { useMemo, useState, useEffect, ReactNode } from "react";
 import { Review } from "@/app/lib/types";
-import { Star, TrendingUp, Users, Award, ChevronDown, Utensils, Beer, Armchair, ConciergeBell, Banknote, Filter, ChevronUp } from 'lucide-react';
-import { generateKeyPairSync } from "crypto";
+import { Star, Users, ChevronDown, Utensils, Beer, Armchair, ConciergeBell, Banknote, Filter, ChevronUp } from 'lucide-react';
 
 type KpiCardProps = {
   color: string
@@ -254,15 +253,7 @@ export default function ReviewsList() {
             value={kpis.avgRating}
             icon={<Star className="w-12 h-12 text-green-500 opacity-80" />}
           />
-          <KpiCard 
-            color="purple"
-            title="Melhor Nota"
-            name={kpis.topRated ? kpis.topRated.buteco.name : ""}
-            value={`${kpis.topRated ? kpis.topRated.rating : 0} ★`}
-            icon={<Award className="w-12 h-12 text-purple-500 opacity-80" />}
-            className="col-span-2 md:col-span-1"
-            type="top-rated"
-          />
+          
         </div>
         <div className="grid grid-cols-3 lg:grid-cols-5 gap-2 mb-8"> 
           <KpiCard 
@@ -328,8 +319,8 @@ export default function ReviewsList() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
-                {paginatedData.map((review) => (
-                  <tr key={review.id} className="hover:bg-gray-50 transition-colors">
+                {paginatedData.map((review, i) => (
+                  <tr key={i} className="hover:bg-gray-50 transition-colors">
                     <td className="px-6 py-4">
                       <span className="font-medium text-gray-900">{review.user.name}</span>
                     </td>
@@ -355,8 +346,8 @@ export default function ReviewsList() {
 
           {/* Mobile Card View */}
           <div className="lg:hidden divide-y divide-gray-200">
-            {paginatedData.map((bar) => (
-              <div key={bar.id} className="p-4 hover:bg-gray-50 transition-colors">
+            {paginatedData.map((bar, i) => (
+              <div key={i} className="p-4 hover:bg-gray-50 transition-colors">
                 <p className="text-muted text-sm">{bar.user.name}</p>
                 <div className="flex items-start justify-between mb-3">
                   <h3 className="font-semibold text-lg text-gray-900">{bar.buteco.name}</h3>
@@ -393,35 +384,35 @@ export default function ReviewsList() {
           </div>
 
           {/* Pagination */}
-          <div className="bg-gray-50 px-6 py-4 flex items-center justify-between border-t border-gray-200">
-            <div className="text-sm text-gray-700">
+          <div className="bg-gray-50 px-4 lg:px-6 py-4 flex flex-col sm:flex-row items-center justify-between border-t border-gray-200">
+            <div className="text-sm text-gray-700 text-center sm:text-left">
               De {startIndex + 1} a {Math.min(startIndex + itemsPerPage, filteredAndSortedData.length)} de {filteredAndSortedData.length} resultados
             </div>
             <div className="flex gap-2">
               <button
                 onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
                 disabled={currentPage === 1}
-                className="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                className="px-3 lg:px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
                 Anterior
               </button>
-              <div className="flex items-center gap-2">
-                {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+              <div className="flex items-center gap-1 lg:gap-2">
+                {Array.from({ length: Math.min(3, totalPages) }, (_, i) => {
                   let pageNum;
-                  if (totalPages <= 5) {
+                  if (totalPages <= 3) {
                     pageNum = i + 1;
-                  } else if (currentPage <= 3) {
+                  } else if (currentPage <= 2) {
                     pageNum = i + 1;
-                  } else if (currentPage >= totalPages - 2) {
-                    pageNum = totalPages - 4 + i;
+                  } else if (currentPage >= totalPages - 1) {
+                    pageNum = totalPages - 3 + i;
                   } else {
-                    pageNum = currentPage - 2 + i;
+                    pageNum = currentPage - 1 + i;
                   }
                   return (
                     <button
                       key={pageNum}
                       onClick={() => setCurrentPage(pageNum)}
-                      className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                      className={`px-3 lg:px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                         currentPage === pageNum
                           ? 'bg-blue-600 text-white'
                           : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'
@@ -435,7 +426,7 @@ export default function ReviewsList() {
               <button
                 onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
                 disabled={currentPage === totalPages}
-                className="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                className="px-3 lg:px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
                 Próximo
               </button>
